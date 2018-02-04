@@ -1,7 +1,8 @@
 ##########################################################################
-##	Script		: VMFromCSV											 	##
+##	Script		: VMFromCSV 1.2											##
 ##	Author		: Ryan Fournier										 	##
-##	Date		: 1/12/2017											 	##
+##	Date Created: 01/12/2017											##
+##  Date Updated: 18/01/2018											##
 ##																	 	##
 ##	Description	: Script to create Virtual Machines from a csv list  	##
 ##########################################################################
@@ -29,7 +30,8 @@
 ##																		##
 ## 								 (Optional)								##
 ## 	   -VMDir: Where the VMs are to be stored. [Default = "H:\VMS"] 	##
-## -VHDPath: Relative path of drives from VMDir. [Default = "\Drives\"] ##
+##  -VHDPath: Relative path of drives from VMDir or Absolute file path. ##
+##							[Default = "Drives"]  						##
 ## 		-EnableAutoStart: Enables Auto Start, if CSV has enabled.		##
 ## 		 		  -BeVerbose: Enables Verbose Writing.					##
 ##																		##		
@@ -43,13 +45,14 @@ Param(
 	#Optional Params
 	[Parameter(Mandatory = $False)]
 	[string]$VMDir="H:\VMS",
-	[string]$VHDPath=$VMDir+"\Drives\",
+	[string]$VHDDir="Drives",
 	[switch]$EnableAutoStart = $False,
 	[switch]$BeVerbose = $False
 )
 
 #Global Script Variables
 $SizeRegex = "^(\d+(?:TB|GB|MB|KB|B))$"
+$FilePathRegex = "^(?:[a-zA-Z]:\\)(?:.*)(?:\\?)$"
 
 #Convert String Input to Bytes. Eg 40GB String = 42949672960 Bytes
 function ConvertToByte
@@ -75,45 +78,15 @@ function ConvertToByte
 	return $Size*([math]::pow(1024, $Factor))
 }
 
-function GetRegexSuccess
+#Check if String Input is an Absolute Filepath
+function IsFullPath
 {
 	Param(
 		[Parameter(Mandatory = $True)]
-		$Str,
-		$RegexStr
+		$Path
 	)
 	
-	return -not ([regex]::Match($Str, $RegexStr) | Select -ExpandProperty Success)
-}
-
-function VerifyFields
-{
-	Param(
-		[Parameter(Mandatory = $True)]
-		$VMRow
-	)
-	
-	if($VMRow.VMName -eq "") {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.StartMem -RegexStr $SizeRegex)) {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.MinMemory -RegexStr $SizeRegex)) {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.MaxMemory -RegexStr $SizeRegex)) {return $True}
-	
-	if($VMRow.SwitchType -eq "") {return $True}
-
-	if((GetRegexSuccess -Str $VMRow.OSDriveSize -RegexStr $SizeRegex)) {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.DataDriveSize -RegexStr $SizeRegex)) {return $True}
-
-	if($VMRow.Processors -eq "" -or (GetRegexSuccess -Str $VMRow.Processors -RegexStr "^(?:\d+)$")) {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.ISOPath -RegexStr "\.iso$")) {return $True}
-	
-	if((GetRegexSuccess -Str $VMRow.AutoStart -RegexStr "^(?:true|True|false|False)$")) {return $True}
-	
-	return $False
+	return ([regex]::Match($Path, $FilePathRegex).Captures.Success)
 }
 
 function CreateVMS
@@ -124,18 +97,34 @@ function CreateVMS
 		$VerbosePreference = "Continue"
 	}
 	
+	#Check if VM path is valid
+	if(-not IsFullPath($VMDir))
+	{
+		#Display Error Message
+		Write-Error -Message "Invalid VM File Path!" -Category ReadError -CategoryActivity "Path Validation" -CategoryReason "File Path Invalid" -CategoryTargetName $VMDir
+	}
+	
+	#Check if VHD path is full path or relative
+	if(IsFullPath($VHDDir))
+	{
+		#Assign full path to VHDPath
+		$VHDPath = $VHDDir
+	}
+	else
+	{
+		#Prevent double backslash
+		$VMDir.Trim('\')
+		$VHDDir.Trim('\')
+		
+		#Build relative VHDPath
+		$VHDPath = $VMDir + '\' + $VHDDir + '\'
+	}
+	
 	#Import CSV File
 	$csv = Import-Csv $CSVFile
 
 	foreach($VMObj in $csv)
-	{
-		#Validate Row
-		if(VerifyFields($VMObj))
-		{
-			Write-Verbose ("VMObj Error. Field in "+$CSVFile+" is Invalid")
-			continue
-		}
-		
+	{		
 		#If VM Exists - Skip
 		if(Get-VM($VMObj.VMName) -ErrorAction SilentlyContinue)
 		{
@@ -210,13 +199,23 @@ function CreateVMS
 		#Check if Data Drive exists
 		if(-not (Test-Path ($VHDPath+$VMObj.VMName+"-Data_Drive.vhdx")))
 		{
-			#Create Data Disk
-			Write-Verbose ("Creating Data Disk. Path: "+$VHDPath+$VMObj.VMName+"-Data_Drive.vhdx")
-			$VHD = New-VHD @DataDiskParams
+			#Check if Data Drive size is larger than 0
+			if(($DataDiskParams.Get_Item("SizeBytes") -gt 0))
+			{
+				#Create Data Disk
+				Write-Verbose ("Creating Data Disk. Path: "+$VHDPath+$VMObj.VMName+"-Data_Drive.vhdx")
+				write-host @DataDiskParams
+				$VHD = New-VHD @DataDiskParams
+			}
+			else
+			{
+				#Cannot create a drive with a negative or 0 size
+				Write-Verbose ("Data Disk has non-positive value. Will not be created.")
+			}
 		}
 		else
 		{
-			#Don't need to create disk as it exists. It can be mounted directly.
+			#Don't need to create disk as it exists. It can be mounted directly
 			Write-Verbose ("Data Disk Exists. Skipping Creation")
 		}
 		
