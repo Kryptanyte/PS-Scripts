@@ -1,0 +1,5 @@
+VMName,StartMem,MinMemory,MaxMemory,SwitchType,OSDriveSize,DataDriveSize,Processors,ISOPath,AutoStart
+WS03-Windows_10-4,4GB,1GB,4GB,External,20GB,40GB,2,I:\Client\Windows 10 Edu 64bit.iso,true
+WS03-Windows_10-5,2GB,1GB,2GB,External,20GB,40GB,1,I:\Client\Windows 10 Edu 64bit.iso,false
+WS03-Windows_7-1,2GB,1GB,2GB,External,20GB,40GB,1,I:\Client\windows 7 pro with sp1 64bit.iso,false
+WS03-Windows_7-2,2GB,1GB,2GB,External,20GB,40GB,1,I:\Client\windows 7 pro with sp1 64bit.iso,false
