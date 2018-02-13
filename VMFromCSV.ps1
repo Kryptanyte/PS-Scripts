@@ -37,6 +37,13 @@
 ##																		##		
 ##########################################################################
 
+##  TODO ##
+#
+# Fix default VM dir + drive path
+# Extend config to include other VM config options
+# Support multiple file structures, e.g. JSON (ConvertTo-Json/ConvertFrom-Json) or drop csv entirely
+#   - Expand to export vm configuration to file.
+
 Param(
 	#Required Params
 	[Parameter(Mandatory = $True)]
@@ -51,7 +58,6 @@ Param(
 )
 
 #Global Script Variables
-$SizeRegex = "^(\d+(?:TB|GB|MB|KB|B))$"
 $FilePathRegex = "^(?:[a-zA-Z]:\\)(?:.*)(?:\\?)$"
 
 #Check if String Input is an Absolute Filepath
@@ -180,7 +186,6 @@ function CreateVMS
 			{
 				#Create Data Disk
 				Write-Verbose ("Creating Data Disk. Path: "+$VHDPath+$VMObj.VMName+"-Data_Drive.vhdx")
-				write-host @DataDiskParams
 				$VHD = New-VHD @DataDiskParams
 			}
 			else
@@ -203,10 +208,14 @@ function CreateVMS
 		Write-Verbose ("Setting Extra VM Settings")
 		$VM = $VM | Set-VM @ExtraVMParams 
 		
-		#Attach Data Drive
-		Write-Verbose ("Attaching Data Drive to VM '"+$VMObj.VMName+"'")
-		$VM = $VM | Add-VMHardDiskDrive @AttachDriveParams
-		
+        #Check if VHD has been created or not
+        if(!$VHD)
+        {
+            #Attach Data Drive
+            Write-Verbose ("Attaching Data Drive to VM '"+$VMObj.VMName+"'")
+            $VM = $VM | Add-VMHardDiskDrive @AttachDriveParams
+		}
+        
 		#Check if ISO File Exists
 		if(Test-Path $VMObj.ISOPath)
 		{
