@@ -54,30 +54,6 @@ Param(
 $SizeRegex = "^(\d+(?:TB|GB|MB|KB|B))$"
 $FilePathRegex = "^(?:[a-zA-Z]:\\)(?:.*)(?:\\?)$"
 
-#Convert String Input to Bytes. Eg 40GB String = 42949672960 Bytes
-function ConvertToByte
-{
-	Param(
-		[Parameter(Mandatory = $True)]
-		$Str
-	)
-	
-	$Factor = 0
-	
-	if($Str.Contains("TB")) {
-		$Factor = 4
-	} elseif($Str.Contains("GB")) {
-		$Factor = 3
-	} elseif($Str.Contains("MB")) {
-		$Factor = 2
-	} elseif($Str.Contains("KB")) {
-		$Factor = 1
-	}	
-	$Size = [int]([regex]::Match($Str, "(\d+)").Captures.Groups[1].Value)
-		
-	return $Size*([math]::pow(1024, $Factor))
-}
-
 #Check if String Input is an Absolute Filepath
 function IsFullPath
 {
@@ -136,10 +112,10 @@ function CreateVMS
 		$NewVMParams = @{
 			#CSV Config Options
 			Name = $VMObj.VMName
-			MemoryStartUpBytes = ConvertToByte($VMObj.StartMem)
+			MemoryStartUpBytes = $VMObj.StartMem
 			SwitchName = $VMObj.SwitchType
 			NewVHDPath = $VHDPath+$VMObj.VMName+"-OS_Drive.vhdx"
-			NewVHDSize = ConvertToByte($VMObj.OSDriveSize)
+			NewVHDSize = $VMObj.OSDriveSize
 			
 			#Non Config Options
 			Path = $VMDir
@@ -151,8 +127,8 @@ function CreateVMS
 		$ExtraVMParams = @{
 			#CSV Config Options
 			ProcessorCount = $VMObj.Processors
-			MemoryMinimumBytes = ConvertToByte($VMObj.MinMemory)
-			MemoryMaximumBytes = ConvertToByte($VMObj.MaxMemory)
+			MemoryMinimumBytes = $VMObj.MinMemory
+			MemoryMaximumBytes = $VMObj.MaxMemory
 			
 			#Non Config Options
 			DynamicMemory = $True
@@ -165,7 +141,7 @@ function CreateVMS
 		$DataDiskParams = @{
 			#CSV Config Options
 			Path = $VHDPath+$VMObj.VMName+"-Data_Drive.vhdx"
-			SizeBytes = ConvertToByte($VMObj.DataDriveSize)
+			SizeBytes = $VMObj.DataDriveSize
 			
 			#Non Config Options
 			Dynamic = $True
