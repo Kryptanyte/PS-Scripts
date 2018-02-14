@@ -1,3 +1,7 @@
+##
+##	Commands Used to Setup Domain Controller VM
+##
+
 #Server Config
 Rename-Computer -NewName LON-DC1
 New-NetIPAddress -InterfaceAlias Ethernet -IPAddress 10.60.40.10 -PrefixLength 24 -DefaultGateway 10.60.40.1
