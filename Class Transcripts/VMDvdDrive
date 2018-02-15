@@ -3,3 +3,6 @@
 Set-VMDvdDrive -VMName "(Virtural Machine Name)" -Path "(Enter .Iso Path Here)"
 
 #Set-VMDvdDrive - Allows you to set a DVD drive on a virtural Machine
+
+#Make sure to use ./image-ddwrt.sh is this is the DD-WRT Router
+
