@@ -17,7 +17,7 @@ $NewVM-Router = @{
 	#NoVHD
 	
 	## Startup Memory Size ##
-	MemoryStartUpBytes = 512GB
+	MemoryStartUpBytes = 512MB
 	
 	## Initial Network Switch ##
 	#SwitchName = <String>

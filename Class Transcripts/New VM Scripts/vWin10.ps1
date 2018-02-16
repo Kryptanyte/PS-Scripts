@@ -17,7 +17,7 @@ $NewVM-Router = @{
 	#NoVHD
 	
 	## Startup Memory Size ##
-	MemoryStartUpBytes = 4096GB
+	MemoryStartUpBytes = 4GB
 	
 	## Initial Network Switch ##
 	SwitchName = "Private" ## Private Switch
