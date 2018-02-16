@@ -63,6 +63,10 @@ $AttachDvdDrive = @{
 	Path = "D:\ISOs\Core6.0-ddwrt-14896.iso"	
 }
 
+$AttachNetworkAdapter = @{
+    
+}
+
 ## Create New VM ##
 $VM = New-VM @NewVM-Router
 

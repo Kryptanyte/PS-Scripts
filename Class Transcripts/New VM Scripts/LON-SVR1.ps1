@@ -10,7 +10,7 @@ $NewVM-Router = @{
 	#VHDPath = <String>
 	
 	## New VHD FilePath and Size ##
-	NewVHDPath = "LON-SRV1-System.vhdx"
+	NewVHDPath = "LON-SVR1-System.vhdx"
 	NewVHDSizeBytes = 50GB
 	
 	## Create VM Without VHD ##
