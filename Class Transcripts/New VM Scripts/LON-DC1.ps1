@@ -1,7 +1,10 @@
+## VM Name Variable ##
+$CurrVMName = "LON-DC1"
+
 ## New-VM Hashtable Configuration ##
-$NewVM-Router = @{
+$NewVM = @{
 	## Virtual Machine Name ##
-	Name = "LON-DC1"
+	Name = $CurrVMName
 	
 	## Virtual Machine Generation ##
 	Generation = 2

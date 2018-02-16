@@ -1,7 +1,10 @@
+## VM Name Variable ##
+$CurrVMName = "LON-SVR4 2016 Standard with GUI"
+
 ## New-VM Hashtable Configuration ##
-$NewVM-Router = @{
+$NewVM = @{
 	## Virtual Machine Name ##
-	Name = "LON-SVR4 2016 Standard with GUI"
+	Name = $CurrVMName
 	
 	## Virtual Machine Generation ##
 	Generation = 2

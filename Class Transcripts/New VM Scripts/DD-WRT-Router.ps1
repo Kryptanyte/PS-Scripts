@@ -1,7 +1,10 @@
+## VM Name Variable ##
+$CurrVMName = "DD-WRT"
+
 ## New-VM Hashtable Configuration ##
-$NewVM-Router = @{
+$NewVM = @{
 	## Virtual Machine Name ##
-	Name = "DD-WRT"
+	Name = $CurrVMName
 	
 	## Virtual Machine Generation ##
 	Generation = 1
@@ -24,7 +27,7 @@ $NewVM-Router = @{
 }
 
 ## Set-VM Hashtable Configuration ##
-$SetVM-ExtraConfig = @{
+$SetVM = @{
 	## VM Name ## (not needed if vm object is piped)
 	#Name = <String>
 	
@@ -54,8 +57,8 @@ $SetVM-ExtraConfig = @{
 	#AutomaticStartDelay = <Int32>
 }
 
-## Attach-VMDvdDrive Hashtable Configuration ##
-$AttachDvdDrive = @{
+## Add-VMDvdDrive Hashtable Configuration ##
+$AddDvdDrive = @{
 	## VM Name ## (not needed if vm object is piped)
 	#VMName = <String>
 	
@@ -63,16 +66,31 @@ $AttachDvdDrive = @{
 	Path = "D:\ISOs\Core6.0-ddwrt-14896.iso"	
 }
 
-$AttachNetworkAdapter = @{
+$NewLegacyAdapter = @{
+    ## VM Name ## (not needed if vm object is piped)
+	VMName = $CurrVMName
+
+    ## Initial Network Switch ##
+	#SwitchName = <String>
     
+    ## Make New Legacy Network Adapter ##
+    IsLegacy = $true
 }
 
 ## Create New VM ##
-$VM = New-VM @NewVM-Router
+$VM = New-VM @NewVM
 
 ## Assign Extra Configuration Options ##
-$VM = $VM | Set-VM @SetVM-ExtraConfig
+$VM = $VM | Set-VM @SetVM
 
 ## Mount Install ISO to VM ##
-$VM = $VM | Attach-VMDvdDrive @AttachDvdDrive
+$VM = $VM | Add-VMDvdDrive @AddDvdDrive
 
+## Remove Non-Legacy Network Adapter ##
+Remove-VMNetworkAdapter -VMName $CurrVMName
+
+## Add a Legacy Network Adapter and Connect to Private Switch ##
+Add-VMNetworkAdapter @NewLegacyAdapter -SwitchName "Private"
+
+## Add a Legacy Network Adapter With no Default Switch ##
+Add-VMNetworkAdapter @NewLegacyAdapter

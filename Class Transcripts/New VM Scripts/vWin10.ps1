@@ -1,8 +1,11 @@
+## VM Name Variable ##
+$CurrVMName = "vWin10 - WS01"
+
 ## New-VM Hashtable Configuration ##
-$NewVM-Router = @{
+$NewVM = @{
 	## Virtual Machine Name ##
-	Name = "vWin10 - WS01"
-	
+	Name = $CurrVMName
+
 	## Virtual Machine Generation ##
 	Generation = 2
 	
