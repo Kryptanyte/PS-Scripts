@@ -11,7 +11,7 @@ Add-Computer -DomainName adatum -DomainCredential (Get-Credential) -NewName WS01
 
 
 ### Setting Server Address (Server Machine Only)
-'''Powershell
+```Powershell
 Set-DnsClientServerAddress -Interfacealias "(Interface Name here)" -serveraddress (New IP Address Here)
 
 
