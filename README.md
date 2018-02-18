@@ -1,5 +1,7 @@
 # Current Network Setup
 
+[Wiki Website](https://l6.kryptanyte.xyz/)
+
 ## Virtual Machine Basic Config
 - DD-WRT Router - **DDWRT**
 	- Generation 1
