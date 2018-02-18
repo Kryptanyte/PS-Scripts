@@ -12,12 +12,12 @@ Add-Computer -DomainName adatum -DomainCredential (Get-Credential) -NewName WS01
 
 ### Setting Server Address (Server Machine Only)
 ```Powershell
-Set-DnsClientServerAddress -Interfacealias "(Interface Name here)" -serveraddress (New IP Address Here)
+Set-DnsClientServerAddress -Interfacealias <Interface Name here> -serveraddress <New IP Address Here>
 ```
 
 ### Making A New Virtural Hard Disk 
 ```Powershell
-new-vhd -path (Input File Path Here -sizebytes (Size of drive) -Dynamic (Can be Fixed, Diferencial)
+new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
 ```
 
 
