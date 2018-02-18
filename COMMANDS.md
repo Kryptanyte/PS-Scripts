@@ -15,7 +15,7 @@ Add-Computer -DomainName adatum -DomainCredential (Get-Credential) -NewName WS01
 Set-DnsClientServerAddress -Interfacealias <Interface Name here> -serveraddress <New IP Address Here>
 ```
 
-### Making A New Virtural Hard Disk 
+### Making A New Virtual Hard Disk 
 ```Powershell
 new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
 ```
