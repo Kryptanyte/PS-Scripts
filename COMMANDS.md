@@ -17,7 +17,7 @@ Set-DnsClientServerAddress -Interfacealias "(Interface Name here)" -serveraddres
 
 ### Making A New Virtural Hard Disk 
 ```Powershell
-new-vhd -path (Imput File Path Here -sizebytes (Size of drive) -Dynamic (Can be Fixed, Diferencial)
+new-vhd -path (Input File Path Here -sizebytes (Size of drive) -Dynamic (Can be Fixed, Diferencial)
 ```
 
 
