@@ -2,7 +2,7 @@
 
 ## This will allow us to make a virtural Machine, Inside a Virtural Machine (The good old Simulation inside a Simulation aye?)
 
-#The first command will be for finding the virtural machine name, in this example, we will be looking for DataCenter,
+#### The first command will be for finding the virtural machine name, in this example, we will be looking for DataCenter,
 and we will assign the name as a varable
 
 ```Powershell
