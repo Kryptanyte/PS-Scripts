@@ -22,11 +22,11 @@ Next we will need to assign a set ammont of memory, for this example, we will us
 Set-VMMemory -VMName $vm.name -dynamicmemoryenabled $false
 ```
 ```Powershell
-set-VM -VMName $nm.name -memorystartupbytes 8GB
+set-VM -VMName $vm.name -memorystartupbytes 8GB
 ```
 
 Now we will set the network adapter for the Child Virtual Machine, this will be for allowing network or internet access
 ```Powershell
-Set-VMNetworkAdapter -VMName $vm.name -name "(Imput network addapter here)" -Macaddressspoffing on
+Set-VMNetworkAdapter -VMName $vm.name -name "(Input network adapter here)" -Macaddressspoofing on
 ```
 
