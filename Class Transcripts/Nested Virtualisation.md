@@ -11,12 +11,12 @@ $vmname = get-vm | where {$_.name -like "LON-SVR2*"}
 After this, we will need to set the virtual machine's processor count, we will need to cores for the child Virtual Machine
 
 ```Powershell
-Set-VMProcessor -VMName $vm.name -count 2
+Set-VMProcessor -VMName $vm.name -count 2 -ExposeVirtualizationExtentions $true
 ```
 
 (Note: the $vm.name is the variable of the machine you selected before)
 
-Next we will need to assign a set ammont of memory, for this example, we will use 8GB of Dynamic Memory
+Next we will need to assign a set ammont of memory, for this example, we will use 8GB of Non-Dynamic Memory
 
 ```Powershell
 Set-VMMemory -VMName $vm.name -dynamicmemoryenabled $false
