@@ -1,27 +1,19 @@
-$VMInit = @{
-	VM1 = @{
-		Name = "LON-DC1"
-		Generation = 2
-		NewVHDPath = "LON-DC1-System.vhdx"
-		NewVHDSizeBytes = 50GB	
-		SwitchName = "Private"
-		MemoryStartUpBytes = 2GB
-	}
-	VM2 = @{
-		Name = "LON-DC2"
-		Generation = 1
-		NewVHDPath = "LON-DC1-System.vhdx"
-		NewVHDSizeBytes = 25GB	
-		SwitchName = "Private"
-		MemoryStartUpBytes = 1GB
-	}
-}
+$ConfigFileLoc = (Split-Path $MyInvocation.MyCommand.Path -Parent) + "\conf"
+$FileLoc = $ConfigFileLoc + "\OperatingSystems.json"
+$JsonObj = ((Get-Content $FileLoc) -join "`n" | ConvertFrom-Json).OperatingSystems
 
-$VMS = ConvertTo-Json $VMInit #| Out-File -FilePath "test.json"
+$Var = "WS_2016_S"
 
-$VMInit.GetEnumerator() | % ($_.Value)
-
-foreach($VMObj in $VMInit)
+if($JsonObj.$Var)
 {
-	#Write-Host($VMObj)
+	Write-Host "Test"
 }
+else
+{
+	Write-Host "Invalid"
+}
+
+#$JsonObj
+$Limit = "1GB"
+$Limit
+[scriptblock]::Create($Limit).InvokeReturnAsIs()

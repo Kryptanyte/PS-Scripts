@@ -1,0 +1,31 @@
+{
+	"OperatingSystems": [
+		{
+			"Name": "WS_2016_S",
+			"Settings": {
+				"Edition": "Windows Server 2016 Standard",
+				"InstallType": "Server",
+				"ISO": "C: /ISOs/2016 _standard.iso",
+				"Generation": 2,
+				"MinMem": {
+					"Core": "512MB",
+					"DE": "2GB"
+				},
+				"StartMem": "2GB",
+				"MinDiskSize": "30GB"
+			}
+		},
+		{
+			"Name": "W_10_EDU_64",
+			"Settings": {
+				"Edition": "Windows 10 Education x64",
+				"InstallType": "Client",
+				"ISO": "C:/ISOs/Windows 10 Edu 64bit.iso",
+				"Generation": 2,
+				"MinMem": "2GB",
+				"StartMem": "2GB",
+				"MinDiskSize": "30GB"
+			}
+		}
+	]
+}
