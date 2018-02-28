@@ -24,6 +24,10 @@ new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be
 
 (Replace Your Router With This, Also Don't Pipe all this, just an example)
 ```Powershell
-New-VMSwitch -switchname "NAT" -SwitchType Internal | New-NetIpAddress -IPAddress 10.60.10.1 ifindex y | New-netnat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
+New-VMSwitch -switchname "NAT" -SwitchType Internal 
+
+New-NetIpAddress -IPAddress 10.60.10.1 ifindex y 
+
+New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 ```
 
