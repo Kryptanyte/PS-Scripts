@@ -27,11 +27,9 @@ new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be
 *x is your assigned subnet*
 
 ```Powershell
-New-VMSwitch -switchname "NAT" -SwitchType Internal 
+New-VMSwitch -SwitchName "NAT" -SwitchType Internal 
 
-netsh int ip show Interfaces
-
-New-NetIpAddress -IPAddress 10.60.x.1 -ifindex <Index from netsh command>
+New-NetIpAddress -IPAddress 10.60.x.1 -PrefixLength 24 -InterfaceIndex ((Get-NetAdapter *NAT*).IfIndex) 
 
 New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 ```
