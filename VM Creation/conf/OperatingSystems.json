@@ -5,7 +5,7 @@
 			"Settings": {
 				"Edition": "Windows Server 2016 Standard",
 				"InstallType": "Server",
-				"ISO": "C: /ISOs/2016 _standard.iso",
+				"ISO": "C:/ISOs/2016_standard.iso",
 				"Generation": 2,
 				"MinMem": {
 					"Core": "512MB",
