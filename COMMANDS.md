@@ -33,4 +33,11 @@ New-NetIpAddress -IPAddress 10.60.x.1 -PrefixLength 24 -InterfaceIndex ((Get-Net
 
 New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 ```
+### Setting Network Adapters On Multiple Machines
+
+(If you have multiple machines on one router, this is handy)
+
+```Powershell
+Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat 
+```
 
