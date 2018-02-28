@@ -1,19 +1,21 @@
-$ConfigFileLoc = (Split-Path $MyInvocation.MyCommand.Path -Parent) + "\conf"
-$FileLoc = $ConfigFileLoc + "\OperatingSystems.json"
-$JsonObj = ((Get-Content $FileLoc) -join "`n" | ConvertFrom-Json).OperatingSystems
+Param(
+	[Parameter(Mandatory = $True)]
+	[string]$Edition,
+	
+	[Parameter(Mandatory = $False)]
+	[ValidatePattern("^.*\.iso$")]
+	[string]$ISO,
+	[ValidateRange(1,2)]
+	[Int16]$Generation,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
+	[string]$MinMem,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
+	[string]$StartMem,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
+	[string]$MinDiskSize
+)
 
-$Var = "WS_2016_S"
-
-if($JsonObj.$Var)
+if($ISO)
 {
-	Write-Host "Test"
+	write-host "test"
 }
-else
-{
-	Write-Host "Invalid"
-}
-
-#$JsonObj
-$Limit = "1GB"
-$Limit
-[scriptblock]::Create($Limit).InvokeReturnAsIs()

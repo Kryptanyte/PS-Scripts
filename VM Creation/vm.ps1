@@ -3,10 +3,15 @@ Param(
 	[string]$Edition,
 	
 	[Parameter(Mandatory = $False)]
+	[ValidatePattern("^.*\.iso$")]
 	[string]$ISO,
+	[ValidateRange(1,2)]
 	[Int16]$Generation,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
 	[string]$MinMem,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
 	[string]$StartMem,
+	[ValidatePattern("^[0-9]*(?:T|GB|MB)$")]
 	[string]$MinDiskSize
 )
 
@@ -34,12 +39,27 @@ function InBytes
 	return [scriptblock]::Create($Size).InvokeReturnAsIs()
 }
 
+function IsValidVar
+{
+	Param(
+		[Parameter(Mandatory = $True)]
+		$Var
+	)
+	
+	return switch -Wildcard ($Var.GetType().Name) {
+		"String"
+		{
+			[string]::IsNullOrEmpty($Var)
+		}
+	}
+}
+
 #############################
 ##	Main Script Functions  ##
 #############################
 
 # Check for Valid Edition in Config
-function CheckEdition
+function GetEdition
 {
 	# Loop through $OS Objects
 	foreach($OS in $OSList)
@@ -47,7 +67,7 @@ function CheckEdition
 		# Check for Valid Name in Operating Systems
 		if($OS.Name -eq $Edition)
 		{
-			return
+			return $OS
 		}
 	}
 	
@@ -55,17 +75,42 @@ function CheckEdition
 	Write-Error -Message "Invalid Edition Name" -Category ObjectNotFound -CategoryActivity "CheckEdition" -CategoryReason "Edition Not Found in OS List." -CategoryTargetName $Edition
 }
 
+function GetVMName
+{
+	Parameter(
+		[Parameter(Mandatory = $True)]
+		[string]$VMName
+	)
+	
+	return (Get-VM -Name ($VMName + "*") | measure).count + 1
+}
+
 # Verify Passed Variables with Config
 function VerifySettings
 {
+	Param(
+		[Parameter(Mandatory = $True)]
+		$OSConf
+	)
 	
+	$VMConf = @{
+		"New-VM"=@{}
+	}
+	if(IsValidVar($ISO))
+	{
+		
+	}
+	else
+	{
+		$VMConf[
+	}
 }
 
 function Main
 {
-	CheckEdition
+	$OSConf = GetEdition
 	
-	VerifySettings
+	$VMConf = VerifySettings($OSConf)
 }
 
 Main
