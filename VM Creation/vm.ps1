@@ -65,13 +65,20 @@ function PARAMVALIDATION
 {
 	if($ISO -and (-not (IsValidPath -Path $ISO)))
 	{
-		Write-Error -Message "Invalid ISO Path" -Category ReadError -CategoryActivity "Parameter Validation" -CategoryReason "File Path Invalid" -CategoryTargetName $ISO
+		Write-Error -Message "ISO must reference a valid path to a .iso image" -Category ReadError -CategoryActivity "Parameter Validation" -CategoryReason "Invalid ISO Path" -CategoryTargetName $ISO
 		exit 1
 	}
 	
+	if($StartMem -and ($StartMem -lt $OSConf.Setting.StartMem))
+	{
+		#Write-Error -Message "Start Memory cannot be smaller than OS Specifications" -
+		#exit 1
+	}
+
+	
 	if($MinMem -and ($MinMem -lt $OSConf.Settings.MinMem))
 	{
-		#Error
+		Write-Error -Message "Minimum Memory cannot be smaller than OS Specifications" -Category InvalidArgument -CategoryActivity "Parameter Validation" -CategoryReason "Invalid Minimum Memory Size" -CategoryTargetName $MinMem
 		exit 1
 	}
 	
@@ -79,8 +86,23 @@ function PARAMVALIDATION
 	{
 		if($MinMem -gt $MaxMem)
 		{
-			#Error
+			Write-Error -Message "Minimum Memory cannot be larger than Maximum Memory" -Category InvalidArgument -CategoryActivity "Parameter Validation" -CategoryReason "Invalid Memory Size"
 			exit 1
+		}
+		
+		if($StartMem)
+		{
+			if($StartMem -lt $MinMem)
+			{
+				
+				exit 1
+			}
+			
+			if($StartMem -gt $MaxMem)
+			{
+				
+				exit 1
+			}
 		}
 	}
 }
