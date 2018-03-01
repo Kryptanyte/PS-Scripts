@@ -41,3 +41,9 @@ New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat 
 ```
 
+### Remove Computer From Non-Existant Domain
+
+```Powershell
+netdom remove <computer name> /Domain:<domain name> /UserD:<admin name> /PasswordD:* /Force
+```
+
