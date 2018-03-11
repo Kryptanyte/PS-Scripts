@@ -25,7 +25,7 @@ Start VM, login and check assigned IP address (<ip>) go back to main menu and en
 In a powershell windows (admin) run command
 
 ```powershell
-djoin /provision /domain <domainname> /machine <name> /savefile \odjblob
+djoin /provision /domain <domainname> /machine <name> /savefile D:\odjblob
 ```
 
 Add server to trustedhosts
