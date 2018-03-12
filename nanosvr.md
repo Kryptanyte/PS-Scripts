@@ -60,7 +60,7 @@ shutdown /r /t 5
 
 Can now log into nano server with domain cred
 
-Making a new Nano Server with local hard drive
+### Making a new Nano Server with local hard drive
 ```powershell
 
 Diskpart.exe
