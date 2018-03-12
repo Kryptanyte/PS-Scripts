@@ -59,3 +59,21 @@ shutdown /r /t 5
 ```
 
 Can now log into nano server with domain cred
+
+Making a new Nano Server with local hard drive
+```powershell
+
+Diskpart.exe
+select disk 0
+clean
+convert GPT
+Create partition efi size=100
+format quick fs=fat32 label="system"
+assign letter="s"
+create partition msr size=128
+create primary partition
+format quick fs=ntfs label="NanoServer"
+assign leter="N"
+list volume
+
+```
