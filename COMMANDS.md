@@ -62,3 +62,11 @@ Connect-IscsiTarget -NodeAddress ((Get-IscsiTarget).NodeAddress)
 
 Get-IscsiSession | Register-IscsiSession
 ```
+
+### Updating Server from Powershell
+
+```Powershell
+$sess = New-CimInstance -NameSpace root/Microsft/windows/Windowsupdate -classname MSFT_WEOperations
+
+Invoke-CimMethod -InputObject $sess -MethodName ApplyApplicableUpdates
+```
