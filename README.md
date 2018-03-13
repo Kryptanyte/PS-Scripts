@@ -2,47 +2,17 @@
 
 [Wiki Website](https://l6.kryptanyte.xyz/)
 
-## Virtual Machine Basic Config
-- DD-WRT Router - **DDWRT**
-	- Generation 1
-	- 1 Processor
-	- 512MB RAM
-	- 5GB Virtual Hard Disk
-	- 2 x Legacy Network Adapters
-		- External Switch
-		- Private Switch
-- Windows 10 Education Edition - **vWin10 WS01**
-	- Generation 2
-	- 2 Processors
-	- 4GB RAM
-	- 50GB Virtual Hard Disk
-	- Private Switch
-- Windows Standard Server 2016 (No GUI) - **LON-DC1**
-	- Generation 2
-	- 2 Processors
-	- 2GB RAM
-	- 50GB Virtual Hard Disk
-	- Private Switch
-- Windows Standard Server 2016 (With Desktop Experience) - **LON-SVR4**
-	- Generation 2
-	- 1 Processor
-	- 4GB RAM
-	- 50GB Virtual Hard Disk
-	- Private Switch
-- Windows Standard Server 2016 (No GUI) - **LON-SVR1**
-	- Generation 2
-	- 1 Processor
-	- 2GB RAM
-	- 50GB Virtual Hard Disk
-	- Private Switch
-- Windows Standard Server 2012 (No GUI) - **LON-SVR3**
-	- Generation 1
-	- 1 Processor
-	- 2GB RAM
-	- 50GB Virtual Hard Disk
-	- Private Switch
-## VM Setup Steps
+## NanoServer Stuff
 
-## DD-WRT
-### Pre-Startup
-1. 
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/nanosvr.md#nano-server-creation](Nano Server Creation)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/nanosvr.md#making-a-new-nano-server-with-local-hard-drive](Deploying Nano Server on Host)
+
+## Domain Stuff
+
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#adding-a-machine-to-the-domain](Joining Computer to Domain)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#setting-server-address-server-machine-only](Setting DNS Server/s with Powershell)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#setting-server-address-server-machine-only](Making a New Virtual Hard Drive)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#new-nat-switch](NAT Enabled Switch)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#setting-network-adapters-on-multiple-machines](Mass Changing VM Network Adapters)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#remove-computer-from-non-existant-domain](Remove Computer from Non-existant Domain)
+- [https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#connect-iscsi-target](Connect to iSCSI Target)
