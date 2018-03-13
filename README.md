@@ -16,3 +16,4 @@
 - [Mass Changing VM Network Adapters](https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#setting-network-adapters-on-multiple-machines)
 - [Remove Computer from Non-existant Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#remove-computer-from-non-existant-domain)
 - [Connect to iSCSI Target](https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#connect-iscsi-target)
+- [Updating with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#updating-server-from-powershell)
