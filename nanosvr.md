@@ -17,7 +17,7 @@ Create new VM with the vhdx
 
 **Ignore Command**
 ```powershell
-New-VM -Name <name> -MemoryStartupBytes 1024 -Generation 2 -VHDPath <vhdx Directory>\<name>.vhdx
+New-VM -Name <name> -MemoryStartupBytes 1GB -Generation 2 -VHDPath <vhdx Directory>\<name>.vhdx
 ```
 
 Start VM, login and check assigned IP address (<ip>) go back to main menu and enable winrm
