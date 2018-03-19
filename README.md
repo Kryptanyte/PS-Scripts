@@ -2,6 +2,8 @@
 
 [Wiki Website](https://l6.kryptanyte.xyz/)
 
+## Unsorted Commands
+
 ## Docker
 
 - [Docker Install Script](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Misc%20Scripts/Install-Docker.ps1)
