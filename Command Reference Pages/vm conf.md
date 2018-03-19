@@ -1,6 +1,11 @@
-# To enable Nested Virtuallisation
+# Virtual Machine Configuration
 
-### This will allow us to make a virtual Machine, Inside a Virtual Machine (The good old Simulation inside a Simulation aye?)
+### Making A New Virtual Hard Disk 
+```Powershell
+new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
+```
+
+### Enable Nested Virtualization
 
 The first command will be for finding the virtual machine name, in this example, we will be looking for DataCenter, and we will assign the name as a variable
 
@@ -30,3 +35,23 @@ Now we will set the network adapter for the Child Virtual Machine, this will be 
 Set-VMNetworkAdapter -VMName $vm.name -name "(Input network adapter here)" -Macaddressspoofing on
 ```
 
+### NAT Enabled Switch
+
+(Replace Your Router With This, Also Don't Pipe all this, just an example)
+
+*x is your assigned subnet*
+
+```Powershell
+New-VMSwitch -SwitchName "NAT" -SwitchType Internal 
+
+New-NetIpAddress -IPAddress 10.60.x.1 -PrefixLength 24 -InterfaceIndex ((Get-NetAdapter *NAT*).IfIndex) 
+
+New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
+```
+### Setting Network Adapters On Multiple Machines
+
+(If you have multiple machines on one router, this is handy)
+
+```Powershell
+Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat 
+```

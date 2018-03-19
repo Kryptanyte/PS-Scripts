@@ -1,3 +1,5 @@
+# Windows Configuration
+
 ### Desired State Configuration
 
 This will allow you to view a defined configuration on different names and Propertities
@@ -51,6 +53,10 @@ After setting this script up, you can 5yen start a DSC configuration, with the C
 Start-DscConfiguration -computername localhost -path (Path Name) . -Verbose
 ```
 
+### Updating Server from Powershell
 
+```Powershell
+$sess = New-CimInstance -NameSpace root/Microsft/windows/Windowsupdate -Classname MSFT_WUOperationsSession
 
-
+Invoke-CimMethod -InputObject $sess -MethodName ApplyApplicableUpdates
+```
