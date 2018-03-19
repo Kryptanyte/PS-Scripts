@@ -3,7 +3,9 @@
 [Wiki Website](https://l6.kryptanyte.xyz/)
 
 ## Docker
-- [Installing Docker with Powershell](/Command Reference Pages/docker.md#install-docker)
+
+- [Docker Install Script](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Misc%20Scripts/Install-Docker.ps1)
+- [Installing Docker with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/docker.md)
 
 ## NanoServer Stuff
 
