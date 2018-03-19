@@ -3,6 +3,7 @@
 [Wiki Website](https://l6.kryptanyte.xyz/)
 
 ## [Unsorted Commands](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/unsorted.md)
+*Put any new commands into this unsorted commands file and they will be sorted and linked on the main readme*
 
 ## Docker
 
