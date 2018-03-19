@@ -1,4 +1,9 @@
-# To enable Nested Virtuallisation
+# Virtual Machine Configuration
+
+### Making A New Virtual Hard Disk 
+```Powershell
+new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
+```
 
 ### This will allow us to make a virtual Machine, Inside a Virtual Machine (The good old Simulation inside a Simulation aye?)
 
