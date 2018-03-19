@@ -2,7 +2,7 @@
 
 [Wiki Website](https://l6.kryptanyte.xyz/)
 
-## Unsorted Commands
+## [Unsorted Commands](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/unsorted.md)
 
 ## Docker
 
@@ -25,11 +25,12 @@
 
 - [Joining Computer to Domain](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/domain.md#adding-a-machine-to-a-domain)
 - [Remove Computer from Non-existant Domain](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/domain.md#remove-computer-from-non-existant-domain)
-- [Connect to iSCSI Target](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/basic%20commands.md#connect-iscsi-target)
+
 
 ## Windows Stuff
 - [Desired State Configuration](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/windows%20conf.md#desired-state-configuration)
-- [Updating with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/basic%20commands.md#updating-server-from-powershell)
+- [Updating with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/windows%20conf.md#updating-server-from-powershell)
 
 ## Networking
-- [Setting DNS Server/s with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/master/COMMANDS.md#setting-server-address-server-machine-only)
+- [Setting DNS Server/s with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/networking.md#setting-server-address-server-machine-only)
+- [Connect to iSCSI Target](https://github.com/Kryptanyte/PS-Scripts/blob/structure-update/Command%20Reference%20Pages/networking.md#connect-iscsi-target)
