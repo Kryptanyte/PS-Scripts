@@ -8,7 +8,7 @@
 *XXX - Name of Server(s)*
 
 ```Powershell
-SETSPN -s "Microsoft Virtural System Migration Services/XXX" XXX
+SETSPN -s "Microsoft Virtual System Migration Services/XXX" XXX
 ```
 
 
@@ -18,9 +18,9 @@ SETSPN -s "Microsoft Virtural System Migration Services/XXX" XXX
 Where <host 1> and <host 2> are hostnames of the Hyper-V hosts and <domain> is the NETBIOS name of the domain.
 
 ```Powershell
-SETSPN -s "Microsoft Virtural System Migration Services/<host 1>" <host 1>
-SETSPN -s "Microsoft Virtural System Migration Services/<host 1>.<domain>" <host 1>
+SETSPN -s "Microsoft Virtual System Migration Services/<host 1>" <host 1>
+SETSPN -s "Microsoft Virtual System Migration Services/<host 1>.<domain>" <host 1>
 
-SETSPN -s "Microsoft Virtural System Migration Services/<host 2>" <host 2>
-SETSPN -s "Microsoft Virtural System Migration Services/<host 2>.<domain>" <host 2>
+SETSPN -s "Microsoft Virtual System Migration Services/<host 2>" <host 2>
+SETSPN -s "Microsoft Virtual System Migration Services/<host 2>.<domain>" <host 2>
 ```
