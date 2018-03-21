@@ -15,6 +15,7 @@ SETSPN -s "Microsoft Virtural System Migration Services/XXX" XXX
 
 ## Enabling Migration Between Hyper-V Hosts
 
+Where <host 1> and <host 2> are hostnames of the Hyper-V hosts and <domain> is the NETBIOS name of the domain.
 
 ```Powershell
 SETSPN -s "Microsoft Virtural System Migration Services/<host 1>" <host 1>
