@@ -7,7 +7,8 @@
 *This will need to be done on both machines in order to have a relationship* 
 *XXX - Name of Server(s)*
 
+```Powershell
 SETSPN -s "Microsoft Virtural System Migration Services/XXX" XXX
-
+```
 
 
