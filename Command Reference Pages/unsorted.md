@@ -46,8 +46,25 @@ Get-ClusterNetwork -Cluster s2dcluster -Name "Cluster Network 1"
 Enable-ClusterS2D
 ```
 
-**
+*Shwoing storage pools, and Optomizing storage Pools*
 
 ```Powershell
+Get-StoragePool
 
+Optimize-StoragePool "(Cluster Name Here)"
 ```
+
+*Invoke Command to every machine for a new Switch (Hyper-V Manager)*
+
+```Powershell
+Invoke-Command -ComputerName *Enter Host Machines Here* -ScriptBlock { New-VMSwitch -Name "Production" -NetAdaptorName ethernet0 -EnableEmbeddedteaming $True -AllowManagementOS $True } 
+```
+
+*SMB Delegation - Setting up Keribos in active Directory *
+
+```Powershell
+Enable-SmbDelegation -SmbServer (File share Created) -SmbClient (The new cluster)
+```
+
+(Might Want to sort the cluster commands later)
+
