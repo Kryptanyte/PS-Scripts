@@ -43,7 +43,7 @@ Get-ClusterNetwork -Cluster s2dcluster -Name "Cluster Network 1"
 *Enabling Cluster*
 
 ```Powershell
-Enable ClusterS2D
+Enable-ClusterS2D
 ```
 
 **
