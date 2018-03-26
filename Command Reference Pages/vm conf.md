@@ -1,5 +1,11 @@
 # Virtual Machine Configuration
 
+### Creating A Virtual Machine
+
+```Powershell
+New-VM -Name "(Name Of Virtual Machine)" -MemoryStartupBytes "(GB's of memory)" -SwitchName "(Your Virtual Network Adapter)" -Path "(Virtual Machine Configuration Storage Path)" -Generation 2
+```
+
 ### Making A New Virtual Hard Disk 
 ```Powershell
 new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
@@ -55,3 +61,15 @@ New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 ```Powershell
 Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat 
 ```
+### Setting Up A Differencing Disk
+
+```Powershell
+New-VHD -Path "(Where you want the Drive).vhdx" -ParentPath "(Where Base Disk is Located).vhdx" -Differencing
+```
+### Setting Up A New VM with Differencing Disk
+
+```Powershell
+New-VM -Name "(Name Of VM)" -Path "(Path Of VM Configuration)" -VHDPath "(Path Of Differencing Disk)" | ` Set-VMMemory -DynamicMemoryEnabled $True ` -MaximumBytes 2GB -Minimumbytes 512MB -StartupBytes 1GB 
+```
+
+
