@@ -46,7 +46,7 @@ Get-ClusterNetwork -Cluster s2dcluster -Name "Cluster Network 1"
 Enable-ClusterS2D
 ```
 
-*Shwoing storage pools, and Optomizing storage Pools*
+*Showing storage pools, and Optimizing storage Pools*
 
 ```Powershell
 Get-StoragePool
@@ -60,7 +60,7 @@ Optimize-StoragePool "(Cluster Name Here)"
 Invoke-Command -ComputerName *Enter Host Machines Here* -ScriptBlock { New-VMSwitch -Name "Production" -NetAdaptorName ethernet0 -EnableEmbeddedteaming $True -AllowManagementOS $True } 
 ```
 
-*SMB Delegation - Setting up Keribos in active Directory *
+*SMB Delegation - Setting up Kerberos in active Directory*
 
 ```Powershell
 Enable-SmbDelegation -SmbServer (File share Created) -SmbClient (The new cluster)
