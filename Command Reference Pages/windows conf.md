@@ -60,3 +60,26 @@ $sess = New-CimInstance -NameSpace root/Microsft/windows/Windowsupdate -Classnam
 
 Invoke-CimMethod -InputObject $sess -MethodName ApplyApplicableUpdates
 ```
+
+### Performing Windows Server Backup (Powershell)
+
+```Powershell
+# Create a Backup Policy 
+$Policy = New-WBPolicy
+
+# Create File/Folder Specifications
+$UserData = New-WBFileSpec -FileSpec "C:\Users\*"
+$ProgramData = New-WBFileSpec -FileSpec "C:\ProgramData\*"
+
+# Add Files/Folders to Policy
+Add-WBFileSpec -Policy $Policy $UserData,$ProgramData
+
+# Create Backup Target Location
+$TargetLoc = New-WBBackupTarget -NetworkPath "<Network Location>"
+
+# Add Backup Target to Policy
+Add-WBBackupTarget -Policy $Policy -Target $TargetLoc
+
+# Start Backup Policy
+Start-WB -Policy $Policy
+``
