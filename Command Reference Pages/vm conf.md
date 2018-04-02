@@ -16,7 +16,7 @@ new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be
 The first command will be for finding the virtual machine name, in this example, we will be looking for DataCenter, and we will assign the name as a variable
 
 ```Powershell
-$vmname = get-vm | where {$_.name -like "LON-SVR2*"}
+$vmname = get-vm | where {$_.name -like "LON-SVR2"}
 ```
 
 After this, we will need to set the virtual machine's processor count, we will need to cores for the child Virtual Machine
