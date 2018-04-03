@@ -66,7 +66,7 @@ Invoke-Command -ComputerName *Enter Host Machines Here* -ScriptBlock { New-VMSwi
 Enable-SmbDelegation -SmbServer (File share Created) -SmbClient (The new cluster)
 ```
 
-*Creating an SMB share 
+*Creating an SMB share*
 
 ```Powershell
 New-SMBShare -Name "(Name of SMB share)" -Path "(Path of new SMB Share)" -FullAccess "(Whoever you want to have access)" 
