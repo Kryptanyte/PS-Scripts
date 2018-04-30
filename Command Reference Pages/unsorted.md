@@ -2,9 +2,15 @@
 
 *Put any new commands into this file and they will be sorted and linked on the main readme*
 
+## Enable IPv4 Ping/Echo Requests
+
+```Powershell
+Get-NetFirewallRule -DisplayName "*Sharing (Echo Request - ICMPv4*" | Enable-NetFirewallRule
+```
+
 ## Set Service Principal Names - Virtual System Migration
 
-*This will need to be done on both machines in order to have a relationship* 
+*This will need to be done on both machines in order to have a relationship*
 *XXX - Name of Server(s)*
 
 ```Powershell
@@ -12,7 +18,7 @@ SETSPN -s "Microsoft Virtual System Migration Services/XXX" XXX
 ```
 ## Cluster Commands
 
-*Test Cluster* 
+*Test Cluster*
 
 ```Powershell
 Test-Cluster -Node *Enter the host machines here* -Include "Storage Space Direct",Incentory,Network,"System Configuration"
@@ -57,7 +63,7 @@ Optimize-StoragePool "(Cluster Name Here)"
 *Invoke Command to every machine for a new Switch (Hyper-V Manager)*
 
 ```Powershell
-Invoke-Command -ComputerName *Enter Host Machines Here* -ScriptBlock { New-VMSwitch -Name "Production" -NetAdaptorName ethernet0 -EnableEmbeddedteaming $True -AllowManagementOS $True } 
+Invoke-Command -ComputerName *Enter Host Machines Here* -ScriptBlock { New-VMSwitch -Name "Production" -NetAdaptorName ethernet0 -EnableEmbeddedteaming $True -AllowManagementOS $True }
 ```
 
 *SMB Delegation - Setting up Kerberos in active Directory*
@@ -69,6 +75,5 @@ Enable-SmbDelegation -SmbServer (File share Created) -SmbClient (The new cluster
 *Creating an SMB share*
 
 ```Powershell
-New-SMBShare -Name "(Name of SMB share)" -Path "(Path of new SMB Share)" -FullAccess "(Whoever you want to have access)" 
+New-SMBShare -Name "(Name of SMB share)" -Path "(Path of new SMB Share)" -FullAccess "(Whoever you want to have access)"
 ```
-
