@@ -1,5 +1,12 @@
 # Networking Random Stuff
 
+### Enable IPv4 Echo Requests
+
+```Powershell
+Get-NetFirewallRule -DisplayName "*Sharing (Echo Request - ICMPv4*" | Enable-NetFirewallRule
+```
+
+
 ### Setting Server Address (Server Machine Only)
 ```Powershell
 Set-DnsClientServerAddress -Interfacealias <Interface Name here> -serveraddress <New IP Address Here>
