@@ -1,11 +1,20 @@
 # DNS Server Commands
 
+### Get all DNS Server commands
+```PowerShell
+Get-Command -Module dnsserver
+```
+
 ### Adding a new record
 ```PowerShell
 Add-DnsServerResourceRecord -ZoneName <zone name> -A -Name <record name> -IPv4Address <record address> -CreatePtr
 ```
 
-Where `<zone name>` is existing zone name on local server, `<record name>`, is desired name for the record in the zone file and `<record address>` is the IPv4 address of the host that is having a record created for.
+`<zone name>` - Existing zone name on local server
+
+`<record name>` - Desired name for the record in the zone file
+
+`<record address>` - IPv4 address of the host that is having a record created for.
 
 `-A` Tells the cmdlet that the record being created is an A type.
 Switches exist for all record types `(-Srv, -AAA, -PTR, -NS, ...)`
@@ -21,7 +30,7 @@ Add-DnsServerResourceRecord -ZoneName "adatum.com" -A -Name TRY2 -IPv4Address 19
 Get-DnsServerZone -Name <zone name> | Get-DnsServerResourceRecord
 ```
 
-Where `<zone name>` is existing zone name on local server.
+`<zone name>` - Existing zone name on local server.
 
 E.g.
 ```PowerShell
@@ -34,9 +43,29 @@ Get-DnsServerZone -Name "adatum.com" | Get-DnsServerResourceRecord
 Add-DnsServerSecondaryZone -Name <zone name> -ZoneFile <zone file> -MasterServers <other server ip>
 ```
 
-Where `<zone name>` is the desired name on local server, `<zone file>` is the name of the zone on the master server/s and `<other server ip>` is ip/s of other server/s.
+`<zone name>` - Desired name of zone on local server
+
+`<zone file>` - Name of the zone on the master server/s
+
+`<other server ip>` - IP/s of other server/s.
 
 E.g.
 ```PowerShell
 Add-DnsServerSecondaryZone -Name "adatum.com" -ZoneFile "adatum.com" -MasterServers 172.16.0.10
 ```
+
+### Creating forward lookup zone with reverse lookup zone
+
+```PowerShell
+Add-DnsServerPrimaryZone -Name <zone name> -ReplicationScope <scope type> -PassThru | Add-DnsServerPrimaryZone -NetworkID <network id>
+```
+
+`<zone name>` - Desired Zone Name on local server. (String)
+
+`<scope type>` - Replication Scope type. Includes:
+  - Forest
+  - Domain
+  - Legacy
+  - Custom
+
+`<netword id>` - Network ID of the network on `<zone name>` for reverse lookup
