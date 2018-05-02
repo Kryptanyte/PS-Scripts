@@ -27,6 +27,11 @@
 - [Joining Computer to Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#adding-a-machine-to-a-domain)
 - [Remove Computer from Non-existant Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#remove-computer-from-non-existant-domain)
 
+## DNS Server
+
+- [Adding New (A) Record](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#adding-a-new-record)
+- [Retrieving All Records From Zone](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#getting-all-records-in-a-zone-file)
+- [Creating Secondary Zone (Non Domain Joined)](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#creating-a-secondary-zone-non-domain-joined)
 
 ## Windows Stuff
 - [Desired State Configuration](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/windows%20conf.md#desired-state-configuration)

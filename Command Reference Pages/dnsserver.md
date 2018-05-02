@@ -8,6 +8,7 @@ Add-DnsServerResourceRecord -ZoneName <zone name> -A -Name <record name> -IPv4Ad
 Where `<zone name>` is existing zone name on local server, `<record name>`, is desired name for the record in the zone file and `<record address>` is the IPv4 address of the host that is having a record created for.
 
 `-A` Tells the cmdlet that the record being created is an A type.
+Switches exist for all record types `(-Srv, -AAA, -PTR, -NS, ...)`
 
 E.g.
 ```PowerShell
