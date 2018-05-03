@@ -56,6 +56,8 @@ Add-DnsServerSecondaryZone -Name "adatum.com" -ZoneFile "adatum.com" -MasterServ
 
 ### Creating forward lookup zone with reverse lookup zone
 
+##### Only available in AD-DS
+
 ```PowerShell
 Add-DnsServerPrimaryZone -Name <zone name> -ReplicationScope <scope type> -PassThru | Add-DnsServerPrimaryZone -NetworkID <network id>
 ```
@@ -63,9 +65,9 @@ Add-DnsServerPrimaryZone -Name <zone name> -ReplicationScope <scope type> -PassT
 `<zone name>` - Desired Zone Name on local server. (String)
 
 `<scope type>` - Replication Scope type. Includes:
-  - Forest
-  - Domain
-  - Legacy
-  - Custom
+  - Forest - The ForestDnsZone directory partition.
+  - Domain - The domain directory partition.
+  - Legacy - A legacy directory partition.
+  - Custom - Any custom directory partition that a user creates. Specify a custom directory partition by using the ***DirectoryPartitionName*** parameter.
 
 `<netword id>` - Network ID of the network on `<zone name>` for reverse lookup
