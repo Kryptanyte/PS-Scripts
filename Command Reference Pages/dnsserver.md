@@ -71,3 +71,7 @@ Add-DnsServerPrimaryZone -Name <zone name> -ReplicationScope <scope type> -PassT
   - Custom - Any custom directory partition that a user creates. Specify a custom directory partition by using the ***DirectoryPartitionName*** parameter.
 
 `<netword id>` - Network ID of the network on `<zone name>` for reverse lookup
+
+```PowerShell
+Add-DnsServerPrimaryZone -Name "contoso.com" -ReplicationScope Domain -PassThru | Add-DnsServerPrimaryZone -NetworkID 172.16.22.0/24
+``

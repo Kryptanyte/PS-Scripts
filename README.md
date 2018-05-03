@@ -32,6 +32,7 @@
 - [Adding New (A) Record](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#adding-a-new-record)
 - [Retrieving All Records From Zone](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#getting-all-records-in-a-zone-file)
 - [Creating Secondary Zone (Non Domain Joined)](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#creating-a-secondary-zone-non-domain-joined)
+- [Creating Forward Lookup Zone (with Reverse Lookup Zone)](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/dnsserver.md#creating-forward-lookup-zone-with-reverse-lookup-zone)
 
 ## Windows Stuff
 - [Desired State Configuration](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/windows%20conf.md#desired-state-configuration)
