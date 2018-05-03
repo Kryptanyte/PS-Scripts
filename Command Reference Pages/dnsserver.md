@@ -74,4 +74,4 @@ Add-DnsServerPrimaryZone -Name <zone name> -ReplicationScope <scope type> -PassT
 
 ```PowerShell
 Add-DnsServerPrimaryZone -Name "contoso.com" -ReplicationScope Domain -PassThru | Add-DnsServerPrimaryZone -NetworkID 172.16.22.0/24
-``
+```
