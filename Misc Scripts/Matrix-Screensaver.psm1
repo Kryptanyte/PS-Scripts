@@ -1,9 +1,10 @@
 Set-StrictMode -off
 
-# Make sure to be in the file location before ;
-#
-#
-#
+# Make sure to be in the file location before Using the following commands:
+# Set-Executionpolicy remotesigned
+# Import-Module .\cmatrix
+# Set-ScreenSaverTimeout -Seconds 5
+# Enable-ScreenSaver
 # Module: PowerShell Console ScreenSaver Version 0.1
  
 if ($host.ui.rawui.windowsize -eq $null) {
