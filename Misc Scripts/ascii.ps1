@@ -1,11 +1,11 @@
 Param(
 	[Parameter(Mandatory = $True)]
-	[string]$ToConvert,
+	[string]$InputString,
 
 	[Parameter(Mandatory = $False)]
 	[string]$Key = "",
 	[int]$Multiplier = 0,
-	[switch]$SumChar = $False,
+	[switch]$Sum = $False,
 	[switch]$InlineCodes = $False,
 	[switch]$Decode = $False
 )
