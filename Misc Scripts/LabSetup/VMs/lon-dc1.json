@@ -1,6 +1,5 @@
 {
-  "LON-DC1":{
-    "Cores":2,
-    "Edition":"DC Core"
-  }
+  "Name":"LON-DC1",
+  "Cores":2,
+  "Edition":"DC Core"
 }

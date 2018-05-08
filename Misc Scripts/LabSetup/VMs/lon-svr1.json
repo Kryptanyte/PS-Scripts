@@ -1,6 +1,5 @@
 {
-  "LON-SVR1":{
-    "Cores":1,
-    "Edition":"DC DE"
-  }
+  "Name":"LON-SVR1",
+  "Cores":1,
+  "Edition":"DC DE"
 }
