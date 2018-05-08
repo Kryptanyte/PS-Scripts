@@ -3,8 +3,8 @@ Param(
 	[string]$InputString,
 
 	[Parameter(Mandatory = $False)]
-	[string]$Key = "",
-	[int]$Multiplier = 0,
+	[string]$EncryptionKey,
+	[int]$EncryptionMulti,
 	[switch]$Sum = $False,
 	[switch]$InlineCodes = $False,
 	[switch]$Decode = $False
@@ -18,7 +18,7 @@ function StrToCodes
 	)
 
 	$CharArr = $ToConvert.ToCharArray()
-	$ReturnArr = @() $CharArr.Length
+	$ReturnArr = [System.Collections.ArrayList]@()
 
 	ForEach($char in $CharArr)
 	{
@@ -27,6 +27,60 @@ function StrToCodes
 
 	return $ReturnArr
 }
+
+function SumArr
+{
+	Param(
+		[Parameter(Mandatory = $True)]
+		$Arr
+	)
+
+	$Sum
+	$Arr | Foreach {$Sum += $_}
+	return $Sum
+}
+
+function Encode
+{
+	Param(
+		[Parameter(Mandatory = $True)]
+		[string]$RawString
+	)
+
+	$EncodedArr = StrToCodes($RawString)
+	$Enc = $False
+	$Multi
+
+	if($EncryptionMulti -eq 0)
+	{
+		if($EncryptionKey -ne "")
+		{
+			$Multi = SumArr((StrToCodes($EncryptionKey)))
+
+			$Enc = $True
+		}
+	}
+	elseif($Multi -gt 0)
+	{
+		$Enc = $True
+	}
+
+	if($Enc)
+	{
+		Foreach($Value in $EncodedArr)
+		{
+			$Value = $Value * $Multi
+		}
+	}
+
+	return ($EncodedArr -join " ")
+}
+
+Encode($InputString)
+
+$EncryptionMulti
+
+<#
 
 if($Key -ne "")
 {
@@ -122,3 +176,4 @@ else
 {
 	Encode
 }
+#>
