@@ -1,5 +1,3 @@
-$reg = "^(?:[a-z]+) (.+)=(.*)$"
-
 function GetServerConfigs
 {
   $Servers = [System.Collections.ArrayList]@()
@@ -9,7 +7,7 @@ function GetServerConfigs
 
     ForEach($v in $t)
     {
-      Write-Host $v.Name
+      $v.Name
     }
 
   }
