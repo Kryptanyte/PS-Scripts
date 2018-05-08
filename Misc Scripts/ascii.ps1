@@ -10,6 +10,24 @@ Param(
 	[switch]$Decode = $False
 )
 
+function StrToCodes
+{
+	Param(
+		[Parameter(Mandatory = $True)]
+		[string]$ToConvert
+	)
+
+	$CharArr = $ToConvert.ToCharArray()
+	$ReturnArr = @() $CharArr.Length
+
+	ForEach($char in $CharArr)
+	{
+		$ReturnArr.Add(([int][char]$char)) > $null
+	}
+
+	return $ReturnArr
+}
+
 if($Key -ne "")
 {
 	$CharArr = $Key.ToCharArray()
