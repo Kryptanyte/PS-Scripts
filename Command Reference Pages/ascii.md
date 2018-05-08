@@ -1,7 +1,7 @@
 # Letter ASCII Table
 
 | Letter | Uppercase ASCII | Lowercase ASCII |
-| - | - |
+| - | - | - |
 | A | 065 | 097 |
 | B | 066 | 098 |
 | C | 067 | 099 |
