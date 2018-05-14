@@ -44,6 +44,8 @@ class VHD
         }
       }
     }
+
+    return $True
   }
 }
 
