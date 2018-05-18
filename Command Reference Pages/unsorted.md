@@ -13,6 +13,6 @@ SETSPN -s "Microsoft Virtual System Migration Services/XXX" XXX
 
 ## Enable Echo (Ping) Requests
 
-``Powershell
+```Powershell
 Get-NetFirewallRule *FPS-ICMP4* | Enable-NetFirewallRule
 ```
