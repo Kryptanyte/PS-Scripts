@@ -1,0 +1,36 @@
+@{
+  ServerName = "LON-SVR1"
+  Memory = @{
+    Max = "8GB"
+    Min = "1GB"
+    Startup = "2GB"
+  }
+  Drives = @(
+    @{
+      Name = "LON-SVR1-System.vhdx"
+      Type = "Differencing"
+      Parent = "Parent.vhdx"
+    }
+    @{
+      Name = "LON-SVR1-Data.vhdx"
+      Type = "Dynamically Expanding"
+      Size = "80GB"
+    }
+  )
+  Networking = @(
+    "External Switch"
+    "Internal Switch"
+  )
+  DSC = @{
+    InstalledRoles = @(
+      @{
+        DisplayName = "Active Directory"
+        FeatureName = "ad-domain-services"
+      }
+      @{
+        DisplayName = "DNS Server"
+        FeatureName = "dns"
+      }
+    )
+  }
+}
