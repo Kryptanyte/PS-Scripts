@@ -1,5 +1,6 @@
 @{
   ServerName = "LON-SVR1"
+  Priority = 5
   Memory = @{
     Max = "8GB"
     Min = "1GB"

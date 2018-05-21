@@ -1,5 +1,6 @@
 
 $rootdir = $PSScriptRoot
+$VMDir = "D:\VM\VM\"
 
 #function keys ($h) { foreach ($k in $h.keys) { $k ; keys $h[$k] }}
 
@@ -15,8 +16,10 @@ Class VDrive
   [String]$Name
   [String]$Type
   [UInt64]$Size
-  [Switch]$Dynamic
+  [Switch]$Dynamic = $False
   [String]$Parent
+
+  static [String]$Path
 
   VDrive($Drive)
   {
@@ -33,8 +36,37 @@ Class VDrive
 
       if($this.Type -eq "Dynamically Expanding")
       {
-        $this.Dynamic = $true
+        $this.Dynamic = $True
       }
+    }
+  }
+
+  [void] Create()
+  {
+    $this.RemoveIfExists()
+
+    if($this.Type -eq "Differencing")
+    {
+      New-VHD -Path ([VDrive]::Path + $this.Name) -ParentPath $this.Parent -Differencing
+    }
+    else
+    {
+      if($this.Dynamic)
+      {
+        New-VHD -Path ([VDrive]::Path + $this.Name) -SizeBytes $this.Size -Dynamic
+      }
+      else
+      {
+        New-VHD -Path ([VDrive]::Path + $this.Name) -SizeBytes $this.Size -Fixed
+      }
+    }
+  }
+
+  [void] RemoveIfExists()
+  {
+    if(Test-Path ([VDrive]::Path + $this.Name))
+    {
+      Remove-Item ([VDrive]::Path + $this.Name)
     }
   }
 }
@@ -48,6 +80,7 @@ Class VSwitch
 Class Server
 {
   [String]$Name
+  [Int32]$Priority
   [HashTable]$Memory
   [VDrive[]]$Drives
   [VSwitch[]]$Switches
@@ -56,14 +89,42 @@ Class Server
   Server($ServerTable)
   {
     $this.Name = $ServerTable.ServerName
-    $this.Memory = $ServerTable.Memory
-
+    $this.Priority = $ServerTable.Priority
+    $this.Memory = @{Min = GetBytes($ServerTable.Memory.Min); Max = GetBytes($ServerTable.Memory.Max); Startup = GetBytes($ServerTable.Memory.Startup)}
+    #Write-Host (GetBytes($ServerTable.Memory.Min))
     Foreach($Drive in $ServerTable.Drives)
     {
       $this.Drives += [VDrive]::new($Drive)
     }
 
     $this.DSC = $ServerTable.DSC
+  }
+
+  [void] Create()
+  {
+    $this.RemoveIfExists()
+
+    New-VM -Name $this.Name -Generation 2 -MemoryStartupBytes $this.Memory.Startup
+
+    if(($this.Memory.Max) -and ($this.Memory.Min))
+    {
+      Set-VMMemory -VMName $this.Name -MaximumBytes $this.Memory.Max -MinimumBytes $this.Memory.Min -DynamicMemoryEnabled $True
+    }
+
+    Foreach($drive in $this.Drives)
+    {
+      Add-VMHardDiskDrive -VMName $this.Name -ControllerType SCSI -Path ([VDrive]::Path + $drive.Name)
+    }
+
+
+  }
+
+  [void] RemoveIfExists()
+  {
+    if(Get-VM -Name $this.Name)
+    {
+      Remove-VM -Name $this.Name
+    }
   }
 }
 
@@ -106,6 +167,50 @@ Function GetInstalledServers
   return $Existing
 }
 
+####################################
+##      Server Install Stuff      ##
+####################################
+
+Function Install_Main($ToInstall)
+{
+  $ServerList = Install_SortServerPrio($ToInstall)
+
+  Install_CreateVHDs($ServerList)
+
+  Install_CreateVMs($ServerList)
+}
+
+Function Install_SortServerPrio($ToInstall)
+{
+  $SortedList = [System.Collections.ArrayList]@()
+
+  Foreach($Name in $ToInstall)
+  {
+    $SortedList.Add($ServerConfigs[$Name]) > $null
+  }
+
+  return $SortedList
+}
+
+Function Install_CreateVHDs($ServerList)
+{
+  Foreach($svr in $ServerList)
+  {
+    Foreach($drive in $svr.Drives)
+    {
+      $drive.Create()
+    }
+  }
+}
+
+Function Install_CreateVMs($ServerList)
+{
+  Foreach($svr in $ServerList)
+  {
+    $svr.Create()
+  }
+}
+
 ##########################
 ##      Menu Stuff      ##
 ##########################
@@ -135,14 +240,19 @@ Function Menu_InstallSelect
     $c = 1
     Foreach($svr in $ServerConfigs.Values)
     {
-      Write-Host -ForegroundColor Yellow -"    $c)"$svr.Name
+      Write-Host -ForegroundColor Yellow "      $c)"$svr.Name
 
       $c++
     }
 
-    Write-Host ForegroundColor Yellow -Object "    q) Exit"
+    Write-Host -ForegroundColor Cyan -Object @"
 
-    $Selection = Read-Host "Select Server/s to install or type 's' to start installtion process"
+      s) Start Install
+      q) Exit
+
+"@
+
+    $Selection = Read-Host "Select Server/s to install or action to execute"
 
     if($Selection -eq "0")
     {
@@ -152,7 +262,11 @@ Function Menu_InstallSelect
     {
       $M_IS_Running = $False
 
-      Install_StartInstall($InstallServers)
+      Install_Main($InstallServers)
+    }
+    elseif($Selection -eq "q")
+    {
+      $M_IS_Running = $False
     }
     else
     {
@@ -224,7 +338,7 @@ Function Menu_MainMenu
 
 Function Main
 {
-  Clear-Host
+  [VDrive]::Path = "E:\VM\HDD\"
 
   $ServerConfigs = GetServerTable
 

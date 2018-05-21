@@ -1,5 +1,5 @@
 @{
-  ServerName = "LON-SVR2"
+  ServerName = "LON-SVR3"
   Priority = 5
   Memory = @{
     Max = "8GB"
@@ -8,12 +8,7 @@
   }
   Drives = @(
     @{
-      Name = "LON-SVR1-System.vhdx"
-      Type = "Differencing"
-      Parent = "Parent.vhdx"
-    }
-    @{
-      Name = "LON-SVR1-Data.vhdx"
+      Name = "LON-SVR3-Data.vhdx"
       Type = "Dynamically Expanding"
       Size = "80GB"
     }
