@@ -41,6 +41,16 @@ Class VDrive
     }
   }
 
+  [Boolean] Verify()
+  {
+    if($this.Name -eq "")
+    {
+      return $False
+    }
+
+    return $True
+  }
+
   [void] Create()
   {
     $this.RemoveIfExists()
