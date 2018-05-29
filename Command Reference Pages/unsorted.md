@@ -23,6 +23,7 @@ Get-NetFirewallRule *FPS-ICMP4* | Enable-NetFirewallRule
 #### How to Publish Web Content
 
 ```Powershell
+Get-BCStatus
 Publish-BCWebContent -Path "(Web Content Location)" -StageData
 Export-BCCachePackage -Destination "(Where you want to store it)"
 Import-BBCachePackage "(Whatever Location you stored the file)"
