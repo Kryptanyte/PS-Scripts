@@ -20,7 +20,7 @@ Get-NetFirewallRule *FPS-ICMP4* | Enable-NetFirewallRule
 
 ## BC Web Cache stuffs
 
-###How to Publish Web Content
+#### How to Publish Web Content
 
 ```Powershell
 Publish-BCWebContent -Path "(Web Content Location)" -StageData
