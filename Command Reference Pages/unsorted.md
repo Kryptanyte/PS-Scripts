@@ -16,3 +16,14 @@ SETSPN -s "Microsoft Virtual System Migration Services/XXX" XXX
 ```Powershell
 Get-NetFirewallRule *FPS-ICMP4* | Enable-NetFirewallRule
 ```
+
+
+## BC Web Cache stuffs
+
+###How to Publish Web Content
+
+```Powershell
+Publish-BCWebContent -Path "(Web Content Location)" -StageData
+Export-BCCachePackage -Destination "(Where you want to store it)"
+Import-BBCachePackage "(Whatever Location you stored the file)"
+```
