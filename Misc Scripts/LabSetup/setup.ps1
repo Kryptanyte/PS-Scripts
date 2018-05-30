@@ -46,6 +46,13 @@ Function ConfigHeaderMessage
 
 }
 
+Function SaveScriptConfigFile
+{
+  $file += $g_OwnerName
+  $file += $g_DomainName
+  $file += $g_AdministrativePassword
+}
+
 Function CreateScriptConfig
 {
 
@@ -76,7 +83,7 @@ Function CreateScriptConfig
       {
         1 { ConfigHeaderMessage; $g_OwnerName = Read-Host "Enter Owner Name" }
         2 { ConfigHeaderMessage; $g_DomainName = Read-Host "Enter Domain Name" }
-        3 { ConfigHeaderMessage; $g_AdministrativePassword = Read-Host "Enter Administrator Password" }
+        3 { ConfigHeaderMessage; $g_AdministrativePassword = Read-Host "Enter Administrator Password" <#-AsSecureString#> }
       }
     }
 
