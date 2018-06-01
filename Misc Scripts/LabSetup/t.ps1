@@ -152,7 +152,7 @@ Function GetServerTable
 
   Foreach($file in $files)
   {
-     $svr = [Server]::new((gc "$dir$file"| Out-String | iex))
+     $svr = [Server]::new((gc <#Get-Content#> "$dir$file"| Out-String | iex <#Invoke-Expression#>))
 
      $Servers.Add($svr.Name, $svr) > $null
   }

@@ -25,6 +25,7 @@ Function StringToBase64([String] $PlainText)
 
   URL: https://adsecurity.org/?p=478
   #>
+  
   $Bytes = [System.Text.Encoding]::Unicode.GetBytes($PlainText)
   return [Convert]::ToBase64String($Bytes)
 }
@@ -46,11 +47,17 @@ Function ConfigHeaderMessage
 
 }
 
+Function LoadScriptConfigFile
+{
+  $file = (gc "$g_CachePath\settings.pson" | Out-String | iex)
+
+  $file
+}
+
 Function SaveScriptConfigFile
 {
-  $file += $g_OwnerName
-  $file += $g_DomainName
-  $file += $g_AdministrativePassword
+  $file = "@{OwnerName = ""$g_OwnerName"";DomainName = ""$g_DomainName"";AdminPass = ""$g_AdministrativePassword"";}"
+  Set-Content -Path "$g_CachePath\settings.pson" -value ($file)
 }
 
 Function CreateScriptConfig
@@ -109,4 +116,6 @@ Function GetScriptConfig
 
 }
 
-CreateScriptConfig
+#CreateScriptConfig
+SaveScriptConfigFile
+LoadScriptConfigFile
