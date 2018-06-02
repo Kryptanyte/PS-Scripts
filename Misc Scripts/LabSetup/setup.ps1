@@ -1,10 +1,40 @@
-$g_OwnerName = 'L5A'
-$g_DomainName = 'adatum.com'
-$g_AdministrativePassword = 'Pa$$w0rd'
-
 $g_ScriptPath = $PSScriptRoot
-$g_CachePath = "$g_ScriptPath\cache"
 $g_TempPath = "$g_ScriptPath\temp"
+
+$g_Config = [ScriptCache]::new()
+[ScriptCache]::CachePath = "$g_ScriptPath\cache"
+
+class ScriptCache
+{
+  [String]$OwnerName
+  [String]$DomainName
+  [String]$AdminPass
+
+  static [String]$CachePath
+
+  [void] SaveConfig()
+  {
+    Write-Host 'Saving Config'
+    $f = ''
+    $this.PSObject.Properties | Foreach {
+      $f += ($_.Name + "='" + $_.Value + "';")
+    }
+
+    Set-Content -Path ([ScriptCache]::CachePath +'\settings.pson') -value ('@{' + $f + '}')
+  }
+
+  [void] LoadConfig()
+  {
+    $file = (Get-Content ([ScriptCache]::CachePath + '\settings.pson') | Out-String | Invoke-Expression)
+
+    $this.PSObject.Properties | Foreach {
+      if($file.Contains($_.Name))
+      {
+        $_.Value = $file[$_.Name]
+      }
+    }
+  }
+}
 
 Function SecureStringToPlainText($SecureString)
 {
@@ -25,7 +55,7 @@ Function StringToBase64([String] $PlainText)
 
   URL: https://adsecurity.org/?p=478
   #>
-  
+
   $Bytes = [System.Text.Encoding]::Unicode.GetBytes($PlainText)
   return [Convert]::ToBase64String($Bytes)
 }
@@ -35,29 +65,20 @@ Function ConfigHeaderMessage
 
   Clear-Host
 
+  $OwnerName = $g_Config.OwnerName
+  $DomainName = $g_Config.DomainName
+  $AdminPass = $g_Config.AdminPass
+
   Write-Host -ForegroundColor Green -Object @"
 
   Avonmore Systems Administration Course Script Configuration
 
-  Owner Name: $g_OwnerName
-  Domain Name: $g_DomainName
-  Administrative Password: $g_AdministrativePassword
+  Owner Name: $OwnerName
+  Domain Name: $DomainName
+  Administrative Password: $AdminPass
 
 "@
 
-}
-
-Function LoadScriptConfigFile
-{
-  $file = (gc "$g_CachePath\settings.pson" | Out-String | iex)
-
-  $file
-}
-
-Function SaveScriptConfigFile
-{
-  $file = "@{OwnerName = ""$g_OwnerName"";DomainName = ""$g_DomainName"";AdminPass = ""$g_AdministrativePassword"";}"
-  Set-Content -Path "$g_CachePath\settings.pson" -value ($file)
 }
 
 Function CreateScriptConfig
@@ -88,13 +109,13 @@ Function CreateScriptConfig
       $Num = [Int32][String]$Selection
       switch($Num)
       {
-        1 { ConfigHeaderMessage; $g_OwnerName = Read-Host "Enter Owner Name" }
-        2 { ConfigHeaderMessage; $g_DomainName = Read-Host "Enter Domain Name" }
-        3 { ConfigHeaderMessage; $g_AdministrativePassword = Read-Host "Enter Administrator Password" <#-AsSecureString#> }
+        1 { ConfigHeaderMessage; $g_Config.OwnerName = Read-Host "Enter Owner Name" }
+        2 { ConfigHeaderMessage; $g__Config.DomainName = Read-Host "Enter Domain Name" }
+        3 { ConfigHeaderMessage; $g__Config.AdminPass = Read-Host "Enter Administrator Password" <#-AsSecureString#> }
       }
     }
 
-    SaveScriptConfigFile
+    $g_Config.SaveConfig()
 
   }
 }
@@ -102,9 +123,9 @@ Function CreateScriptConfig
 
 Function GetScriptConfig
 {
-  if(-not (Test-Path -Path $g_CachePath -PathType Container))
+  if(-not (Test-Path -Path ([ScriptCache]::CachePath) -PathType Container))
   {
-    if(-not (New-Item -Path $g_CachePath -ItemType Directory))
+    if(-not (New-Item -Path ([ScriptCache]::CachePath) -ItemType Directory))
     {
       # ERROR
       exit
@@ -113,9 +134,42 @@ Function GetScriptConfig
     CreateScriptConfig
   }
 
+  $g_Config.LoadConfig()
 
+  While($True)
+  {
+    ConfigHeaderMessage
+
+    Write-Host -ForegroundColor Cyan -Object @"
+
+  1) Edit Script Configuration
+  2) Create Server Configuration
+
+  q) Exit
+
+"@
+
+    $Selection = Read-Host "Select an Option"
+
+    if($Selection -eq "q")
+    {
+      break
+    }
+    else
+    {
+      $Num = [Int32][String]$Selection
+      switch($Num)
+      {
+        1 { CreateScriptConfig }
+        2 {  }
+      }
+    }
+  }
 }
 
-#CreateScriptConfig
-SaveScriptConfigFile
-LoadScriptConfigFile
+Function Main()
+{
+  GetScriptConfig
+}
+
+Main
