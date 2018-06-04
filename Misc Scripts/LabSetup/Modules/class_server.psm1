@@ -1,6 +1,8 @@
 using module '.\class_vdrive.psm1'
 using module '.\class_vswitch.psm1'
 
+Function GetBytes($s) {return (($s/1GB)*1GB)}
+
 Class Server
 {
   [String]$Name

@@ -4,8 +4,32 @@ using module '.\Modules\class_scriptconfig.psm1'
 $g_ScriptPath = $PSScriptRoot
 $g_TempPath = "$g_ScriptPath\temp"
 
-$g_Config = [ScriptCache]::new()
 [ScriptCache]::CachePath = "$g_ScriptPath\cache"
+$g_Config = [ScriptCache]::new()
+
+$g_ServConfigs = @{}
+
+Function GetNodeAtIndex
+{
+  Param(
+    [Parameter(Mandatory = $True)]
+    [Int32]$i,$a
+  )
+
+  $v = 0
+
+  Foreach($n in $a.Values)
+  {
+    if($i -eq $v)
+    {
+      return $n
+    }
+      $v++
+    }
+
+    return
+  }
+
 
 Function SecureStringToPlainText($SecureString)
 {
@@ -73,7 +97,7 @@ Function CreateScriptConfig
     {
       break
     }
-    else
+    elseif($Selection -match "^\d+$")
     {
       $Num = [Int32][String]$Selection
       switch($Num)
@@ -113,18 +137,63 @@ Function SetupServer
 
 Function ListServerConfigs
 {
-  ConfigHeaderMessage
-
-  <#For($i = 1; $i -lt $g_Servers.Count; $i++)
+  While($True)
   {
-    $Name = $g_Servers[$i].Name
-    Write-Host -ForegroundColor Cyan -Object "  $i) $Name"
-  }#>
+
+    ConfigHeaderMessage
+
+    $i = 1
+
+    Foreach($Serv in $g_ServConfigs.Values)
+    {
+      Write-Host -ForegroundColor Cyan -Object "  $(($i++))) $($Serv.Name)"
+    }
+
+    Write-Host -ForegroundColor Cyan -Object @"
+
+  q) Exit
+
+"@
+
+    $Selection = Read-Host 'Select an Option'
+
+    if($Selection -eq "q")
+    {
+      break
+    }
+    elseif($Selection -match "^\d+$")
+    {
+      $Index = [Int32][String]$Selection - 1
+
+      if(($Index -lt $g_ServConfigs.Count) -and ($Index -ge 0))
+      {
+        $Serv = GetNodeAtIndex $Index $g_ServConfigs
+
+      }
+    }
+
+    Read-Host
+  }
+}
+
+Function GetServerConfigs
+{
+  $DirectoryList = Get-ChildItem -Path ("$g_ScriptPath\ServerConfigs") -Filter '*.pson'
+
+  Foreach($ServConf in $DirectoryList)
+  {
+    $Serv = [Server]::new((gc <#Get-Content#> "$g_ScriptPath\ServerConfigs\$ServConf"| Out-String | iex <#Invoke-Expression#>))
+
+    $g_ServConfigs.Add($Serv.Name, $Serv) > $null
+  }
+
+  $g_ServConfigs.Sort()
 }
 
 Function Main()
 {
   GetScriptConfig
+  GetServerConfigs
 
   While($True)
   {
@@ -146,7 +215,7 @@ Function Main()
     {
       break
     }
-    else
+    elseif($Selection -match "^\d+$")
     {
       $Num = [Int32][String]$Selection
       switch($Num)
