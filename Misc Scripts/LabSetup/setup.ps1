@@ -1,40 +1,11 @@
+using module '.\Modules\class_server.psm1'
+using module '.\Modules\class_scriptconfig.psm1'
+
 $g_ScriptPath = $PSScriptRoot
 $g_TempPath = "$g_ScriptPath\temp"
 
 $g_Config = [ScriptCache]::new()
 [ScriptCache]::CachePath = "$g_ScriptPath\cache"
-
-class ScriptCache
-{
-  [String]$OwnerName
-  [String]$DomainName
-  [String]$AdminPass
-
-  static [String]$CachePath
-
-  [void] SaveConfig()
-  {
-    Write-Host 'Saving Config'
-    $f = ''
-    $this.PSObject.Properties | Foreach {
-      $f += ($_.Name + "='" + $_.Value + "';")
-    }
-
-    Set-Content -Path ([ScriptCache]::CachePath +'\settings.pson') -value ('@{' + $f + '}')
-  }
-
-  [void] LoadConfig()
-  {
-    $file = (Get-Content ([ScriptCache]::CachePath + '\settings.pson') | Out-String | Invoke-Expression)
-
-    $this.PSObject.Properties | Foreach {
-      if($file.Contains($_.Name))
-      {
-        $_.Value = $file[$_.Name]
-      }
-    }
-  }
-}
 
 Function SecureStringToPlainText($SecureString)
 {
@@ -65,16 +36,14 @@ Function ConfigHeaderMessage
 
   Clear-Host
 
-  $OwnerName = $g_Config.OwnerName
-  $DomainName = $g_Config.DomainName
-  $AdminPass = $g_Config.AdminPass
+  $AdminPass = if($g_Config.AdminPass -ne '') { 'Set' } else { 'Not Set' }
 
   Write-Host -ForegroundColor Green -Object @"
 
   Avonmore Systems Administration Course Script Configuration
 
-  Owner Name: $OwnerName
-  Domain Name: $DomainName
+  Owner Name: $($g_Config.OwnerName)
+  Domain Name: $($g_Config.DomainName)
   Administrative Password: $AdminPass
 
 "@
@@ -98,7 +67,7 @@ Function CreateScriptConfig
 
 "@
 
-    $Selection = Read-Host "Select an Option"
+    $Selection = Read-Host 'Select an Option'
 
     if($Selection -eq "q")
     {
@@ -135,6 +104,27 @@ Function GetScriptConfig
   }
 
   $g_Config.LoadConfig()
+}
+
+Function SetupServer
+{
+
+}
+
+Function ListServerConfigs
+{
+  ConfigHeaderMessage
+
+  <#For($i = 1; $i -lt $g_Servers.Count; $i++)
+  {
+    $Name = $g_Servers[$i].Name
+    Write-Host -ForegroundColor Cyan -Object "  $i) $Name"
+  }#>
+}
+
+Function Main()
+{
+  GetScriptConfig
 
   While($True)
   {
@@ -142,14 +132,15 @@ Function GetScriptConfig
 
     Write-Host -ForegroundColor Cyan -Object @"
 
-  1) Edit Script Configuration
-  2) Create Server Configuration
+  1) Setup Server/s
+  2) Edit Server Configurations
+  3) Edit Script Configuration
 
   q) Exit
 
 "@
 
-    $Selection = Read-Host "Select an Option"
+    $Selection = Read-Host 'Select an Option'
 
     if($Selection -eq "q")
     {
@@ -160,16 +151,13 @@ Function GetScriptConfig
       $Num = [Int32][String]$Selection
       switch($Num)
       {
-        1 { CreateScriptConfig }
-        2 {  }
+        1 { SetupServer }
+        2 { ListServerConfigs }
+        3 { CreateScriptConfig }
+
       }
     }
   }
-}
-
-Function Main()
-{
-  GetScriptConfig
 }
 
 Main
