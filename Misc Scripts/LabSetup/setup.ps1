@@ -1,6 +1,13 @@
 using module '.\Modules\class_server.psm1'
 using module '.\Modules\class_scriptconfig.psm1'
 
+if(-Not (Get-Module PSWriteColor))
+{
+  Install-Module PSWriteColor
+}
+
+Import-Module PSWriteColor -Force
+
 $g_ScriptPath = $PSScriptRoot
 $g_TempPath = "$g_ScriptPath\temp"
 
@@ -8,6 +15,8 @@ $g_TempPath = "$g_ScriptPath\temp"
 $g_Config = [ScriptCache]::new()
 
 $g_ServConfigs = [System.Collections.ArrayList]@()
+
+$g_InstalledServers = [System.Collections.ArrayList]@()
 $g_SelectedServers = [System.Collections.ArrayList]@()
 
 Function GetNodeAtIndex
@@ -63,16 +72,13 @@ Function ConfigHeaderMessage
 
   $AdminPass = if($g_Config.AdminPass -ne '') { 'Set' } else { 'Not Set' }
 
-  Write-Host -ForegroundColor Green -Object @"
+  Write-Color -Color Green -Text "`n  Avonmore Systems Administration Course Script Configuration`n"
 
-  Avonmore Systems Administration Course Script Configuration
+  Write-Color -Color Green,Magenta -Text "  Owner Name: ",$($g_Config.OwnerName)
+  Write-Color -Color Green,Magenta -Text "  Domain Name: ",$($g_Config.DomainName)
+  Write-Color -Color Green,Magenta -Text "  Administrative Password: ",$AdminPass
 
-  Owner Name: $($g_Config.OwnerName)
-  Domain Name: $($g_Config.DomainName)
-  Administrative Password: $AdminPass
-
-"@
-
+  Write-Color ''
 }
 
 Function CreateScriptConfig
@@ -82,15 +88,11 @@ Function CreateScriptConfig
   {
     ConfigHeaderMessage
 
-    Write-Host -ForegroundColor Cyan -Object @"
+    Write-Color -Color Red,Cyan "  1)"," Owner Name"
+    Write-Color -Color Red,Cyan "  2)"," Domain Name"
+    Write-Color -Color Red,Cyan "  3)"," Administrative Password"
 
-  1) Owner Name
-  2) Domain Name
-  3) Administrative Password
-
-  q) Exit
-
-"@
+    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
 
     $Selection = Read-Host 'Select an Option'
 
@@ -136,6 +138,31 @@ Function SetupServer
 
 }
 
+Function GetInstalledServers
+{
+  $VMList = Get-VM
+
+  Foreach($Serv in $g_ServConfigs)
+  {
+    if($VMList.Name.Contains($Serv.Name))
+    {
+      $g_InstalledServers.Add($Serv.Name)
+    }
+  }
+}
+
+function ifcontains($a, $s, $t, $f='')
+{
+  if($a.Contains($s))
+  {
+    return $t
+  }
+  else
+  {
+    return $f
+  }
+}
+
 Function ListServerConfigs
 {
   While($True)
@@ -143,23 +170,18 @@ Function ListServerConfigs
 
     ConfigHeaderMessage
 
-    Write-Host -ForegroundColor Green -Object @"
-  Selected Servers: $g_SelectedServers
-
-"@
+    Write-Color -Color Green,Magenta "  Selected Servers: ",$g_SelectedServers"`n"
 
     $i = 1
 
     Foreach($Serv in $g_ServConfigs)
     {
-      Write-Host -ForegroundColor Cyan -Object "  $(($i++))) $($Serv.Name)"
+      #if($g_InstalledServers.Contains($Serv.Name)installed)
+
+      Write-Color -Color Red,Cyan,Yellow -Text "  $(($i++)))"," $($Serv.Name) ",(ifcontains $g_InstalledServers $Serv.Name '[Installed]')
     }
 
-    Write-Host -ForegroundColor Cyan -Object @"
-
-  q) Exit
-
-"@
+    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
 
     $Selection = Read-Host 'Select an Option'
 
@@ -208,20 +230,17 @@ Function Main()
 {
   GetScriptConfig
   GetServerConfigs
+  GetInstalledServers
 
   While($True)
   {
     ConfigHeaderMessage
 
-    Write-Host -ForegroundColor Cyan -Object @"
+    Write-Color -Color Red,Cyan "  1)"," Setup Server/s"
+    Write-Color -Color Red,Cyan "  2)"," Edit Server Configurations"
+    Write-Color -Color Red,Cyan "  3)"," Edit Script Configuration"
 
-  1) Setup Server/s
-  2) Edit Server Configurations
-  3) Edit Script Configuration
-
-  q) Exit
-
-"@
+    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
 
     $Selection = Read-Host 'Select an Option'
 
