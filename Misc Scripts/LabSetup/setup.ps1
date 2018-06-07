@@ -7,7 +7,7 @@ $g_TempPath = "$g_ScriptPath\temp"
 [ScriptCache]::CachePath = "$g_ScriptPath\cache"
 $g_Config = [ScriptCache]::new()
 
-$g_ServConfigs = @{}
+$g_ServConfigs = [System.Collections.ArrayList]@()
 $g_SelectedServers = [System.Collections.ArrayList]@()
 
 Function GetNodeAtIndex
@@ -145,13 +145,13 @@ Function ListServerConfigs
 
     Write-Host -ForegroundColor Green -Object @"
   Selected Servers: $g_SelectedServers
+
 "@
 
     $i = 1
 
     Foreach($Serv in $g_ServConfigs)
     {
-      Write-Host $Serv
       Write-Host -ForegroundColor Cyan -Object "  $(($i++))) $($Serv.Name)"
     }
 
@@ -173,7 +173,7 @@ Function ListServerConfigs
 
       if(($Index -lt $g_ServConfigs.Count) -and ($Index -ge 0))
       {
-        $Serv = GetNodeAtIndex $Index $g_ServConfigs
+        $Serv = $g_ServConfigs[$Index]
 
         if($g_SelectedServers.Contains($Serv.Name))
         {
@@ -196,18 +196,12 @@ Function GetServerConfigs
 {
   $DirectoryList = Get-ChildItem -Path ("$g_ScriptPath\ServerConfigs") -Filter '*.pson'
 
-  $Unsorted = @{}
-
   Foreach($ServConf in $DirectoryList)
   {
     $Serv = [Server]::new((gc <#Get-Content#> "$g_ScriptPath\ServerConfigs\$ServConf"| Out-String | iex <#Invoke-Expression#>))
 
-    $Unsorted.Add($Serv.Name, $Serv) > $null
+    $g_ServConfigs.Add($Serv) > $null
   }
-
-  $g_ServConfigs = $Unsorted.GetEnumerator() | sort name
-  $g_ServConfigs
-  Read-Host 'test'
 }
 
 Function Main()
