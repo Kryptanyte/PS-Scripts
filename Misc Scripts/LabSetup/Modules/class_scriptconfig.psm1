@@ -4,8 +4,7 @@ class ScriptCache
   [String]$DomainName
   [String]$AdminPass
 
-  [Boolean]$Valid
-  [Array]$IgnoredVars = @('Valid','IgnoredVars')
+  [Array]$IgnoredVars = @('IgnoredVars')
 
   static [String]$CachePath
 
@@ -18,8 +17,6 @@ class ScriptCache
     }
 
     Set-Content -Path ([ScriptCache]::CachePath +'\settings.pson') -value ('@{' + $f + '}')
-
-    $this.Valid = $this.ValidateConfig()
   }
 
   [void] LoadConfig()

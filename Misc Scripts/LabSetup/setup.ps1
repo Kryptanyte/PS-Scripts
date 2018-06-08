@@ -130,7 +130,7 @@ Function Get-ScriptConfig
   }
 
   $g_Config.LoadConfig()
-  
+
   $g_Config.Valid = $g_Config.ValidateConfig()
 }
 
@@ -298,7 +298,7 @@ Function Main()
       $Num = [Int32][String]$Selection
       switch($Num)
       {
-        1 { if($g_Config.Valid){ Setup-Server } else { Write-Color -Color Red -Text "`n  Please Configure Script Settings before installing servers.`n"; Start-Sleep -Seconds 3} }
+        1 { if($g_Config.ValidateConfig()){ Setup-Server } else { Write-Color -Color Red -Text "`n  Please Configure Script Settings before installing servers.`n"; Start-Sleep -Seconds 3} }
         2 { List-ServerConfigs }
         3 { Create-ScriptConfig }
 
