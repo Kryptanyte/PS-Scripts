@@ -4,6 +4,9 @@ class ScriptCache
   [String]$DomainName
   [String]$AdminPass
 
+  [Boolean]$Valid
+  [Array]$IgnoredVars = @('Valid','IgnoredVars')
+
   static [String]$CachePath
 
   [void] SaveConfig()
@@ -15,6 +18,8 @@ class ScriptCache
     }
 
     Set-Content -Path ([ScriptCache]::CachePath +'\settings.pson') -value ('@{' + $f + '}')
+
+    $this.Valid = $this.ValidateConfig()
   }
 
   [void] LoadConfig()
@@ -27,5 +32,37 @@ class ScriptCache
         $_.Value = $file[$_.Name]
       }
     }
+  }
+
+  [Boolean] ValidateConfig()
+  {
+    Foreach($node in $this.PSObject.Properties)
+    {
+      if($this.IgnoredVars.Contains($node.Name))
+      {
+        continue
+      }
+
+      if($node.TypeNameOfValue -eq 'System.String')
+      {
+        if($node.Value -eq $null)
+        {
+          return $False
+        }
+      }
+
+      if($node.TypeNameOfValue -eq 'System.Collections.HashTable')
+      {
+        Foreach($e in $Node.Value)
+        {
+          if($e.Count -eq 0)
+          {
+            return $false
+          }
+        }
+      }
+    }
+
+    return $True
   }
 }

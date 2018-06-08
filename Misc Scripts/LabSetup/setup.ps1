@@ -81,7 +81,7 @@ Function ConfigHeaderMessage
   Write-Color ''
 }
 
-Function CreateScriptConfig
+Function Create-ScriptConfig
 {
 
   while($True)
@@ -106,18 +106,17 @@ Function CreateScriptConfig
       switch($Num)
       {
         1 { ConfigHeaderMessage; $g_Config.OwnerName = Read-Host "Enter Owner Name" }
-        2 { ConfigHeaderMessage; $g__Config.DomainName = Read-Host "Enter Domain Name" }
-        3 { ConfigHeaderMessage; $g__Config.AdminPass = Read-Host "Enter Administrator Password" <#-AsSecureString#> }
+        2 { ConfigHeaderMessage; $g_Config.DomainName = Read-Host "Enter Domain Name" }
+        3 { ConfigHeaderMessage; $g_Config.AdminPass = Read-Host "Enter Administrator Password" <#-AsSecureString#> }
       }
     }
 
     $g_Config.SaveConfig()
-
   }
 }
 
 
-Function GetScriptConfig
+Function Get-ScriptConfig
 {
   if(-not (Test-Path -Path ([ScriptCache]::CachePath) -PathType Container))
   {
@@ -127,18 +126,76 @@ Function GetScriptConfig
       exit
     }
 
-    CreateScriptConfig
+    Create-ScriptConfig
   }
 
   $g_Config.LoadConfig()
+  
+  $g_Config.Valid = $g_Config.ValidateConfig()
 }
 
-Function SetupServer
+Function Setup-Server
 {
+  While($True)
+  {
 
+    ConfigHeaderMessage
+
+    Write-Color -Color Green,Magenta "  Selected Servers: ",$g_SelectedServers"`n"
+
+    $i = 1
+
+    Foreach($Serv in $g_ServConfigs)
+    {
+      Write-Color -Color Red,Cyan,Yellow -Text "  $(($i++)))"," $($Serv.Name) ",(ifcontains $g_InstalledServers $Serv.Name '[Installed]')
+    }
+
+    Write-Color -Color Red,Cyan "`n  i)"," Install"
+    Write-Color -Color Red,Cyan "  q)"," Exit`n"
+
+    $Selection = Read-Host 'Select an Option'
+
+    if($Selection -eq "q")
+    {
+      break
+    }
+    elseif($Selection -eq "i")
+    {
+      #Sort-ServerPriority()
+
+      #Create-VM()
+    }
+    elseif($Selection -match "^\d+$")
+    {
+      $Index = [Int32][String]$Selection - 1
+
+      if(($Index -lt $g_ServConfigs.Count) -and ($Index -ge 0))
+      {
+        $Serv = $g_ServConfigs[$Index]
+
+        if($g_InstalledServers.Contains($Serv.Name))
+        {
+          Continue
+        }
+
+        if($g_SelectedServers.Contains($Serv.Name))
+        {
+          $g_SelectedServers.Remove($Serv.Name)
+        }
+        else
+        {
+          $g_SelectedServers.Add($Serv.Name)
+        }
+
+        $g_SelectedServers.Sort()
+      }
+    }
+
+    #Read-Host
+  }
 }
 
-Function GetInstalledServers
+Function Get-InstalledServers
 {
   $VMList = Get-VM
 
@@ -163,22 +220,17 @@ function ifcontains($a, $s, $t, $f='')
   }
 }
 
-Function ListServerConfigs
+Function List-ServerConfigs
 {
   While($True)
   {
 
     ConfigHeaderMessage
-
-    Write-Color -Color Green,Magenta "  Selected Servers: ",$g_SelectedServers"`n"
-
     $i = 1
 
     Foreach($Serv in $g_ServConfigs)
     {
-      #if($g_InstalledServers.Contains($Serv.Name)installed)
-
-      Write-Color -Color Red,Cyan,Yellow -Text "  $(($i++)))"," $($Serv.Name) ",(ifcontains $g_InstalledServers $Serv.Name '[Installed]')
+      Write-Color -Color Red,Cyan -Text "  $(($i++)))"," $($Serv.Name) "
     }
 
     Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
@@ -195,26 +247,19 @@ Function ListServerConfigs
 
       if(($Index -lt $g_ServConfigs.Count) -and ($Index -ge 0))
       {
-        $Serv = $g_ServConfigs[$Index]
-
-        if($g_SelectedServers.Contains($Serv.Name))
-        {
-          $g_SelectedServers.Remove($Serv.Name)
-        }
-        else
-        {
-          $g_SelectedServers.Add($Serv.Name)
-        }
-
-        $g_SelectedServers.Sort()
+        Edit-ServerConfig($g_ServConfigs[$Index])
       }
     }
-
     #Read-Host
   }
 }
 
-Function GetServerConfigs
+Function Edit-ServerConfig($Server)
+{
+
+}
+
+Function Get-ServerConfigs
 {
   $DirectoryList = Get-ChildItem -Path ("$g_ScriptPath\ServerConfigs") -Filter '*.pson'
 
@@ -228,9 +273,9 @@ Function GetServerConfigs
 
 Function Main()
 {
-  GetScriptConfig
-  GetServerConfigs
-  GetInstalledServers
+  Get-ScriptConfig
+  Get-ServerConfigs
+  Get-InstalledServers
 
   While($True)
   {
@@ -253,9 +298,9 @@ Function Main()
       $Num = [Int32][String]$Selection
       switch($Num)
       {
-        1 { SetupServer }
-        2 { ListServerConfigs }
-        3 { CreateScriptConfig }
+        1 { if($g_Config.Valid){ Setup-Server } else { Write-Color -Color Red -Text "`n  Please Configure Script Settings before installing servers.`n"; Start-Sleep -Seconds 3} }
+        2 { List-ServerConfigs }
+        3 { Create-ScriptConfig }
 
       }
     }
