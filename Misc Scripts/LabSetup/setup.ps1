@@ -130,8 +130,6 @@ Function Get-ScriptConfig
   }
 
   $g_Config.LoadConfig()
-
-  $g_Config.Valid = $g_Config.ValidateConfig()
 }
 
 Function Setup-Server
@@ -275,7 +273,7 @@ Function Main()
 {
   Get-ScriptConfig
   Get-ServerConfigs
-  Get-InstalledServers
+  #Get-InstalledServers
 
   While($True)
   {
