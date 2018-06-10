@@ -19,8 +19,14 @@
     }
   )
   Networking = @(
-    "External Switch"
-    "Internal Switch"
+    @{
+      Name = "LON-Internal"
+      Type = "Internal"
+    }
+    @{
+      Name = "LON-External"
+      Type = "External"
+    }
   )
   DSC = @{
     InstalledRoles = @(
