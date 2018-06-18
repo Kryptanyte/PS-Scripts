@@ -29,6 +29,7 @@
 
 - [Joining Computer to Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#adding-a-machine-to-a-domain)
 - [Remove Computer from Non-existant Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#remove-computer-from-non-existant-domain)
+- [Creating a Domain Controller](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/DC%20Server%20Config.ps1)
 
 ## DNS Server
 
