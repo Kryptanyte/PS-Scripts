@@ -92,9 +92,9 @@ Function Create-ScriptConfig
     Write-Color -Color Red,Cyan "  2)"," Domain Name"
     Write-Color -Color Red,Cyan "  3)"," Administrative Password"
 
-    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
+    Write-Color -Color Red,Cyan "`n  q)"," Exit"
 
-    $Selection = Read-Host 'Select an Option'
+    $Selection = Read-Host "`nSelect an Option"
 
     if($Selection -eq "q")
     {
@@ -149,9 +149,9 @@ Function Setup-Server
     }
 
     Write-Color -Color Red,Cyan "`n  i)"," Install"
-    Write-Color -Color Red,Cyan "  q)"," Exit`n"
+    Write-Color -Color Red,Cyan "  q)"," Exit"
 
-    $Selection = Read-Host 'Select an Option'
+    $Selection = Read-Host "`nSelect an Option"
 
     if($Selection -eq "q")
     {
@@ -231,9 +231,9 @@ Function List-ServerConfigs
       Write-Color -Color Red,Cyan -Text "  $(($i++)))"," $($Serv.Name) "
     }
 
-    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
+    Write-Color -Color Red,Cyan "`n  q)"," Exit"
 
-    $Selection = Read-Host 'Select an Option'
+    $Selection = Read-Host "`nSelect an Option"
 
     if($Selection -eq "q")
     {
@@ -252,9 +252,94 @@ Function List-ServerConfigs
   }
 }
 
+Function AsMB($bytes)
+{
+  return ($bytes / 1MB)
+}
+
+Function AsGB($bytes)
+{
+  return ($bytes / 1GB)
+}
+
 Function Edit-ServerConfig($Server)
 {
+  While($True)
+  {
+    Clear-Host
 
+    Write-Color -Color Green -Text "`n  Avonmore Systems Administration Course Script Configuration`n"
+    $i = 1
+    $Server.PSObject.Properties | Foreach {
+
+      if($_.Value -ne $null)
+      {
+        $type = $_.Value.GetType()
+
+        if(($type -like 'string') -or ($type -like 'int'))
+        {
+          Write-Color -Color Red,Green,Magenta -Text "  $i) ","$($_.Name): ",$_.Value
+        }
+        else
+        {
+
+          if($type -like 'hashtable')
+          {
+            if($_.Name -eq 'Memory')
+            {
+              Write-Color -Color Red,Green -Text "  $i) ","$($_.Name)"
+
+              Foreach($NodeKey in $_.Value.Keys)
+              {
+                Write-Color -Color DarkGreen,Yellow,DarkCyan -Text "       $($NodeKey): ","$(AsMB($_.Value[$NodeKey]))"," MB"
+              }
+            }
+            elseif($_.Name -eq 'DSC')
+            {
+
+            }
+            else
+            {
+              Write-Color -Color Green,Magenta -Text "  $($_.Name): ","'$type'"
+            }
+          }
+          elseif($type -like "vdrive*")
+          {
+            Write-Color -Color Red,Green -Text "  $i) ","$($_.Name)"
+
+            Foreach($Drive in $_.Value)
+            {
+              Write-Color -Color Green,Magenta -Text "       Name: ",$Drive.Name
+              Write-Color -Color DarkGreen,Yellow -Text "         Type: ",$Drive.Type
+              if($Drive.Type -eq 'Differencing')
+              {
+                Write-Color -Color DarkGreen,Yellow -Text "         Parent: ",$Drive.Parent
+              }
+              else
+              {
+                Write-Color -Color DarkGreen,Yellow,DarkCyan -Text "         Size: ","$(AsGB($Drive.Size))"," GB"
+              }
+            }
+          }
+          else
+          {
+            Write-Color -Color Green,Magenta -Text "  $($_.Name): ","'$type'"
+          }
+        }
+      }
+      else
+      {
+        Write-Color -Color Green,red -Text "  $($_.Name): ","Not Set"
+      }
+
+      $i++
+    }
+
+    Write-Color -Color Red,Cyan "`n  q)"," Exit"
+
+    $Selection = Read-Host "`nSelect an Option"
+
+  }
 }
 
 Function Get-ServerConfigs
@@ -283,9 +368,9 @@ Function Main()
     Write-Color -Color Red,Cyan "  2)"," Edit Server Configurations"
     Write-Color -Color Red,Cyan "  3)"," Edit Script Configuration"
 
-    Write-Color -Color Red,Cyan "`n  q)"," Exit`n"
+    Write-Color -Color Red,Cyan "`n  q)"," Exit"
 
-    $Selection = Read-Host 'Select an Option'
+    $Selection = Read-Host "`nSelect an Option"
 
     if($Selection -eq "q")
     {
