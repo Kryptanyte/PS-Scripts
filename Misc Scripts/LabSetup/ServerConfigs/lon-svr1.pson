@@ -19,14 +19,7 @@
     }
   )
   Networking = @(
-    @{
-      Name = "LON-Internal"
-      Type = "Internal"
-    }
-    @{
-      Name = "LON-External"
-      Type = "External"
-    }
+    "lon-private"
   )
   DSC = @{
     InstalledRoles = @(

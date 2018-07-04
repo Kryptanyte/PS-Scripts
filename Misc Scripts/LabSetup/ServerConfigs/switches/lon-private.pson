@@ -1,3 +1,4 @@
 @{
   Name = "LON Private Switch"
+  Type = "Private"
 }

@@ -390,4 +390,14 @@ Function Main()
   }
 }
 
-Main
+#Main
+
+Get-ScriptConfig
+Get-ServerConfigs
+
+#(gc "$PSScriptRoot\ServerConfigs\switches\lon-private.pson" | Out-String | iex)
+
+Foreach($Serv in $g_ServConfigs)
+{
+  $Serv.Test
+}

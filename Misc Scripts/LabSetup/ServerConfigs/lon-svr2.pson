@@ -19,8 +19,7 @@
     }
   )
   Networking = @(
-    "External Switch"
-    "Internal Switch"
+    "lon-private"
   )
   DSC = @{
     InstalledRoles = @(

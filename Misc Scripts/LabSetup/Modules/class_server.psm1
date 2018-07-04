@@ -11,6 +11,7 @@ Class Server
   [VDrive[]]$Drives
   [VSwitch[]]$Switches
   [HashTable]$DSC
+  $Test
 
   Server($ServerTable)
   {
@@ -24,6 +25,15 @@ Class Server
     }
 
     $this.DSC = $ServerTable.DSC
+
+    <#
+    Foreach($SwitchName in $ServerTable.Networking)
+    {
+      $SwitchTable = (gc "$PSScriptRoot\ServerConfigs\switches\$SwitchName.pson" | Out-String | iex)
+      $this.Switches += [VSwitch]::new($SwitchTable)
+    }#>
+
+    $this.Test = $ServerTable.Networking
   }
 
   [void] Create()
