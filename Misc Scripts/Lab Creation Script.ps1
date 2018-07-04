@@ -4,73 +4,73 @@
 
 # Default Locations
 
-Set-VMHost -VirtualHardDiskPath "F:\VHDX's\" -VirtualMachinePath "F:\Virtual Machines\"
-$VHDPath = "F:\VHDX's\"
+    Set-VMHost -VirtualHardDiskPath "F:\VHDX's\" -VirtualMachinePath "F:\Virtual Machines\"
+    $VHDPath = "F:\VHDX's\"
 
 #Varables
 
-$Diff_DTC_Desktop = "F:\Differencing Disks\Lab-DTC (Desktop) (OOBE).vhdx"
-$Diff_DTC_NonDesktop = "F:\Differencing Disks\Lab-DTC (Non-Desktop) (OOBE).vhdx"
-$Drive_Tools = "F:\Differencing Disks\Tools.vhdx"
-$Cred = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList "Administrator",(ConvertTo-SecureString -String "Theman232" -AsPlainText -Force)
-$DomainCred = New-Object -TypeName "System.Management.Atuomation.PSCredential" -ArgumentList "adatum\Administrator",(ConvertTo-SecureString -String "Theman232" -AsPlainText -Force)
+    $Diff_DTC_Desktop = "F:\Differencing Disks\Lab-DTC (Desktop) (OOBE).vhdx"
+    $Diff_DTC_NonDesktop = "F:\Differencing Disks\Lab-DTC (Non-Desktop) (OOBE).vhdx"
+    $Drive_Tools = "F:\Differencing Disks\Tools.vhdx"
+    $Cred = New-Object -TypeName "System.Management.Automation.PSCredential" -ArgumentList "Administrator",(ConvertTo-SecureString -String "Theman232" -AsPlainText -Force)
+    $DomainCred = New-Object -TypeName "System.Management.Atuomation.PSCredential" -ArgumentList "adatum\Administrator",(ConvertTo-SecureString -String "Theman232" -AsPlainText -Force)
 
 # Functions
 
 ### Make This Script Wait for VM to start
 
 Function WaitForVM($VMName)
-{
- $Running = $True
+    {
+     $Running = $True
 
- While ($Running)
-  {
-  Start-Sleep -Seconds 60
-  $Running = $false
+     While ($Running)
+      {
+      Start-Sleep -Seconds 60
+      $Running = $false
 
-  Try
-  {
-   Test-Connection -ComputerName $VMName
-  } Catch { $Running = $True }
-  }
-}
+      Try
+      {
+       Test-Connection -ComputerName $VMName
+      } Catch { $Running = $True }
+      }
+    }
 
 ### Creating A New VHDX
 
 Function CreateVHD($ParentPath, $DiskPath)
-{
-New-VHD -Path "$VHDPath$DiskPath" -Differencing -ParentPath $ParentPath
-}
+  {
+      New-VHD -Path "$VHDPath$DiskPath" -Differencing -ParentPath $ParentPath
+  }
 
 ### Create a new Disk
 
 Function CreateDisk($DiskPath,$SizeBytes)
-{
-New-VHD -Path "$VHDPath$DiskPath" -Dynamic -SizeBytes $SizeBytes
-}
+  {
+      New-VHD -Path "$VHDPath$DiskPath" -Dynamic -SizeBytes $SizeBytes
+  }
 
 ### Create A New Virtual Machine
 
 Function CreateVM($Name)
-{
-New-VM -Name $Name -MemoryStartupBytes 2GB -VHDPath "$VHDPath$Name.vhdx" -Generation 2 -SwitchName "Private"
-}
+  {
+      New-VM -Name $Name -MemoryStartupBytes 2GB -VHDPath "$VHDPath$Name.vhdx" -Generation 2 -SwitchName "Private"
+  }
 
 ### Modifying Configuration of Virtual Machines
 
 Function ModifyConfig($Name)
-{
-Set-VM -Name $Name -CheckpointType Disabled -AutomaticStartAction Nothing
-Set-VMMemory -VMName $Name -DynamicMemoryEnabled $True -MinimumBytes 1GB -StartupBytes 2GB -MaximumBytes 4GB
-Connect-VMNetworkAdapter -SwitchName Private -VMName $Name
-}
+  {
+    Set-VM -Name $Name -CheckpointType Disabled -AutomaticStartAction Nothing
+    Set-VMMemory -VMName $Name -DynamicMemoryEnabled $True -MinimumBytes 1GB -StartupBytes 2GB -MaximumBytes 4GB
+    Connect-VMNetworkAdapter -SwitchName Private -VMName $Name
+  }
 
 ### Invoking Commands Into Virtual Machines
 
 Function InvokeCommand($VMName ,$IPAddress,$DNSAddresses)
-{
-Invoke-Command -VMName $VMName -Credential $Cred {New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress "$IPAddress" -PrefixLength 24; Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "$DNSAddresses"; Add-Computer -DomainName adatum.com -DomainCredential $DomainCred; Rename-Computer -NewName "$VMName" ;Restart-Computer}
-}
+  {
+      Invoke-Command -VMName $VMName -Credential $Cred {New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress "$IPAddress" -PrefixLength 24; Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "$DNSAddresses"; Add-Computer -DomainName adatum.com -DomainCredential $DomainCred; Rename-Computer -NewName "$VMName" ;Restart-Computer}
+  }
 
 ### Start Virtual Machines
 
@@ -100,58 +100,59 @@ New-VMSwitch -Name External -NetAdapterName "Ethernet 2"
 
 # Creating Virtual Machines Disks
 
-CreateVHD $Diff_DTC_Desktop "LON-DC1.vhdx"
-CreateVHD $Diff_DTC_Desktop "TOR-DC1.vhdx"
-CreateVHD $Diff_DTC_Desktop "TREY-DC1.vhdx"
-CreateVHD $Diff_DTC_Desktop "LON-SVR1.vhdx"
-CreateVHD $Diff_DTC_Desktop "LON-SVR2.vhdx"
-CreateVHD $Diff_DTC_Desktop "LON-BUS.vhdx"
-CreateVHD $Diff_DTC_Desktop "BF-DC1.vhdx"
-CreateVHD $Diff_DTC_NonDesktop "RF-DC1.vhdx"
-CreateVHD $Diff_DTC_NonDesktop "BV-DC1.vhdx"
+    CreateVHD $Diff_DTC_Desktop "LON-DC1.vhdx"
+    CreateVHD $Diff_DTC_Desktop "TOR-DC1.vhdx"
+    CreateVHD $Diff_DTC_Desktop "TREY-DC1.vhdx"
+    CreateVHD $Diff_DTC_Desktop "LON-SVR1.vhdx"
+    CreateVHD $Diff_DTC_Desktop "LON-SVR2.vhdx"
+    CreateVHD $Diff_DTC_Desktop "LON-BUS.vhdx"
+    CreateVHD $Diff_DTC_Desktop "BF-DC1.vhdx"
+    CreateVHD $Diff_DTC_NonDesktop "RF-DC1.vhdx"
+    CreateVHD $Diff_DTC_NonDesktop "BV-DC1.vhdx"
 
 # Data Disk Drives
 
-CreateDisk "LON-DC1 - DATA.vhdx" 20GB
-CreateDisk "LON-BUS - DATA.vhdx" 25GB
-CreateDisk "CA-SVR1.vhdx" 40GB
+    CreateDisk "LON-DC1 - DATA.vhdx" 20GB
+    CreateDisk "LON-BUS - DATA.vhdx" 25GB
+    CreateDisk "CA-SVR1.vhdx" 40GB
 
 # Creating Virtual Machimes that are needed for this lab
 
-CreateVM("LON-DC1")
-CreateVM("TOR-DC1")
-CreateVM("TREY-DC1")
-CreateVM("LON-SVR1")
-CreateVM("LON-SVR2")
-CreateVM("LON-BUS")
-CreateVM("RF-DC1")
-CreateVM("BV-DC1")
-CreateVM("BF-DC1")
-CreateVM("CA-SVR1")
+    CreateVM("LON-DC1")
+    CreateVM("TOR-DC1")
+    CreateVM("TREY-DC1")
+    CreateVM("LON-SVR1")
+    CreateVM("LON-SVR2")
+    CreateVM("LON-BUS")
+    CreateVM("RF-DC1")
+    CreateVM("BV-DC1")
+    CreateVM("BF-DC1")
+    CreateVM("CA-SVR1")
 
 # Modifying Configuration of Checkpoints and Start Actions (Also Memory)
 
 Set-VM -Name LON-DC1 -CheckpointType Disabled -AutomaticStartAction Start
      Set-VMMemory -VMName LON-DC1 -DynamicMemoryEnabled $True -MinimumBytes 1GB -StartupBytes 2GB -MaximumBytes 4GB
 
-ModifyConfig("TOR-DC1")
-ModifyConfig("TREY-DC1")
-ModifyConfig("LON-SVR1")
-ModifyConfig("LON-SVR2")
-ModifyConfig("LON-BUS")
-ModifyConfig("RF-DC1")
-ModifyConfig("BV-DC1")
-ModifyConfig("BF-DC1")
-ModifyConfig("CA-SVR1")
+    ModifyConfig("TOR-DC1")
+    ModifyConfig("TREY-DC1")
+    ModifyConfig("LON-SVR1")
+    ModifyConfig("LON-SVR2")
+    ModifyConfig("LON-BUS")
+    ModifyConfig("RF-DC1")
+    ModifyConfig("BV-DC1")
+    ModifyConfig("BF-DC1")
+    ModifyConfig("CA-SVR1")
 
 #Adding Data Drives to Virtural Machines
 
-Add-VMHardDiskDrive -VMName LON-DC1 -Path "F:\VHDX's\LON-DC1 - DATA.vhdx"
-Add-VMHardDiskDrive -VMName LON-BUS -Path "F:\VHDX's\LON-BUS - DATA.vhdx"
+    Add-VMHardDiskDrive -VMName LON-DC1 -Path "F:\VHDX's\LON-DC1 - DATA.vhdx"
+    Add-VMHardDiskDrive -VMName LON-BUS -Path "F:\VHDX's\LON-BUS - DATA.vhdx"
 
 #Strating the Virtual Machines
 #Make sure you Go through OOBE before pressing Enter
 #This can cause seirous problems and conflicts if the OOBE isn't completed manually
+
 
 
 Start-VM -Name LON-DC1
@@ -159,17 +160,17 @@ Start-VM -Name LON-DC1
 Pause
     Invoke-Command -VMName LON-DC1 -Credential $Cred {Rename-Computer -NewName LON-DC1; Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools; Install-ADDsForest -DomainName "Adatum.com" -DomainNetBiosName "Adatum" -InstallDNS; New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.1.1 -PrefixLength 24; Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses 127.0.0.1 }
 
-StartVM "TOR-DC1" 192.168.1.2 192.168.1.1
+    StartVM "TOR-DC1" 192.168.1.2 192.168.1.1
 
-StartVM "TREY-DC1" 192.168.1.3 192.168.1.1
+    StartVM "TREY-DC1" 192.168.1.3 192.168.1.1
 
-StartVM "LON-SVR1" 192.168.1.4 192.168.1.1
+    StartVM "LON-SVR1" 192.168.1.4 192.168.1.1
 
-StartVM "LON-SVR2" 192.168.1.5 192.168.1.1
+    StartVM "LON-SVR2" 192.168.1.5 192.168.1.1
 
-StartVM "LON-BUS" 192.168.1.6 192.168.1.1 
+    StartVM "LON-BUS" 192.168.1.6 192.168.1.1
 
-StartVM "CA-SVR1" 192.168.1.20 192.168.1.1
+    StartVM "CA-SVR1" 192.168.1.20 192.168.1.1
 
 Start-VM -Name RF-DC1
    VMConnect localhost RF-DC1
