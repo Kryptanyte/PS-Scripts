@@ -5,6 +5,8 @@
 ## [Unsorted Commands](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/unsorted.md)
 *Put any new commands into this unsorted commands file and they will be sorted and linked on the main readme*
 
+## [Powershell Code Snippets](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/powershell%20pseudocode.ps1)
+
 ## ASCII
 - [ASCII Tables](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/ascii.md)
 
@@ -29,6 +31,7 @@
 
 - [Joining Computer to Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#adding-a-machine-to-a-domain)
 - [Remove Computer from Non-existant Domain](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/domain.md#remove-computer-from-non-existant-domain)
+- [Creating a Domain Controller](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/DC%20Server%20Config.ps1)
 
 ## DNS Server
 
