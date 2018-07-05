@@ -1,0 +1,43 @@
+
+### Creating New Organizational Units (CMD)
+
+
+```bash
+DSADD OU "OU=ACCOUNTS,DC=ADATUM,DC=COM"
+DSADD OU "OU=SHIPPING,DC=ADATUM,DC=COM"
+DSADD OU "OU=LOGISTICS,DC=ADATUM,DC=COM"
+DSADD OU "OU=MANAGERS,DC=ADATUM,DC=COM"
+```
+
+### Creating New Groups and Adding to recently created Organizational (See Above)
+
+
+```bash
+DSADD GROUP "CN=ACCOUNTS,OU=ACCOUNTS,DC=ADATUM,DC=COM"
+DSADD GROUP "CN=SHIPPING,OU=SHIPPING,DC=ADATUM,DC=COM"
+DSADD GROUP "CN=ACCOUNTS,OU=ACCOUNTS,DC=ADATUM,DC=COM"
+DSADD GROUP "CN=ACCOUNTS,OU=ACCOUNTS,DC=ADATUM,DC=COM"
+```
+
+### Creating New Users
+
+```bash
+DSADD USER "CN=Felix Saville,OU=ACCOUNTS,DC=ADATUM,DC=COM" -Disabled No -pwd "P@ssw0rd" -memberof "CN=ACCOUNTS,OU=ACCOUNTS,DC=ADATUM,DC=COM" -smid Felix -ipn Felix@ADATUM.com -fn Felix -ln Saville -Display "Felix Saville" =pwdneverexpires Yes
+```
+
+### Creating a new Organizational Unit (Powershell)
+
+
+```Powershell
+New-ADOrganizationalUnit -Name "ACCOUNTS" -Path "DC=ADATUM,DC=COM"
+```
+### Creating A new user
+
+New-ADUser -Name "Felix Saville" -GivenName Felix -Surname Saville -SamAccountName Felix.Saville -UserPrincipalName Felix.Saville@ADATUM.COM -Path "OU=ACCOUNTS,DC=Adatum,DC=COM" -AccountPassword (Read-Host -AsSecureString "Please Enter Password") -Enabled $True
+
+### Searching for a user in AD
+
+
+```Powershell
+Get-ADUser Filter * -SearchBase "Whatever" -Properties (Whatever you want) | Select (Whatever you got out of properties)
+```
