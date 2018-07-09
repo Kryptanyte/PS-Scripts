@@ -52,7 +52,7 @@ Install-ADDSForest `
 -Force:<$true|$false>
 ```
 
-###### Variables
+__*Variables*__
 
 `<$true|$false>` Can be either $true or $false.
 `<database path>` The desired file location of the AD Database.
@@ -93,7 +93,7 @@ SYSVOLPath=<sysvol path>
 SafeModeAdminPassword=<safemode pass>
 ```
 
-###### Variables
+__*Variables*__
 
 - `<yes|no>` Can be either yes or no.
 - `<tree|child|forest>` Function level of the new domain. `tree` indicates domain is root of a new tree, `child` indicates domain is a child of another domain, `forest` indicates domain is first domain in a new forest.
@@ -120,9 +120,11 @@ SafeModeAdminPassword=<safemode pass>
 redircmp "<dn>"
 ```
 
+__*Variables*__
+
 - `<dn>` is the Distinguished Name of container to put computers joining the domain into.
 
-**E.G.**
+__*E.G.*__
 
 ```
 redircmp "OU=Servers,DC=adatum,DC=com"
@@ -136,10 +138,12 @@ redircmp "OU=Servers,DC=adatum,DC=com"
 dsadd ou "ou=<name>,<dn>"
 ```
 
+__*Variables*__
+
 - `ou=<name>` is the name of the OU being created.
 - `<dn>` is the Distinguished Name of where the OU is to be placed.
 
-**E.G.**
+__*E.G.*__
 
 ```
 dsadd ou "ou=shipping,dc=adatum,dc=com"
@@ -147,12 +151,19 @@ dsadd ou "ou=shipping,dc=adatum,dc=com"
 
 ##### Powershell
 
+```Powershell
+New-ADOrganizationalUnit -Name <name> -Path <dn>
+```
 
+__*Variables*__
+
+- `<name>` Name of the new OU.
+- `<dn>` Distinguished Name location to store new OU.
+
+__*E.G.*__
 
 ```Powershell
 New-ADOrganizationalUnit -Name "Cleaners" -Path "DC=Adatum,DC=com"
-
-Get-ADOrganizationalUnit -Filter * | ft
 ```
 
 #### Adding Group
@@ -163,10 +174,12 @@ Get-ADOrganizationalUnit -Filter * | ft
 dsadd group "cn=<name>,<dn>"
 ```
 
+__*Variables*__
+
 - `cn=<name>` is the name of the group being created.
 - `<dn>` is the Distinguished Name of where the group is to be placed.
 
-**E.G.**
+__*E.G.*__
 
 ```
 dsadd group cn=accounts,ou=accounts,dc=adatum,dc=com
@@ -180,6 +193,8 @@ dsadd group cn=accounts,ou=accounts,dc=adatum,dc=com
 dsadd "cn=<name>,<dn>" -disabled <yes|no> -pwd <password> -memberof <group dn> -samid <sam id> -upn <upn> -fn <first name> -ln <last name> -display <display name> -pwdneverexpires <yes|no>
 ```
 
+__*Variables*__
+
 - `cn=<name>` is the name of the user being created.
 - `<dn>` is the Distinguished Name of where the user is to be placed.
 - `<yes|no>` Can be either yes or no.
@@ -191,7 +206,7 @@ dsadd "cn=<name>,<dn>" -disabled <yes|no> -pwd <password> -memberof <group dn> -
 - `<last name>` Last name of the user.
 - `<display name>` Display name of the user.
 
-**E.G.**
+__*E.G.*__
 
 ```
 dsadd "cn=Michael Russells,ou=Managers,dc=adatum,dc=com" -disabled no -pwd Pa$$w0rd -memberof "cn=Managers,dc=adatum,dc=com" -samid Michael -upn Michael@adatum.com -fn Michael -ln Russells -display "Michael Russells" -pwdneverexpires yes
