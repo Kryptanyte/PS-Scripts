@@ -1,11 +1,15 @@
 # Current Network Setup
 
-[Wiki Website](https://l6.kryptanyte.xyz/)
-
 ## [Unsorted Commands](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/unsorted.md)
 *Put any new commands into this unsorted commands file and they will be sorted and linked on the main readme*
 
 ## [Powershell Code Snippets](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/powershell%20pseudocode.ps1)
+
+## Active Directory
+- [Active Directory Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#active-directory-management)
+- [Group and User Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#group-and-user-management)
+
+- [Distinguished Name](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#ddistinguished-name)
 
 ## ASCII
 - [ASCII Tables](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/ascii.md)
