@@ -2,14 +2,14 @@
 
 ## Navigation
 
-- [Distinguished Name](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#distinguished-name)
-- [Domain Mode](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#domain-mode)
-- [Install Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#install-domain-controller-1)
-- [Uninstall Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#uninstall-domain-controller)
-- [Redirect New Computers to OU](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#redirect-add-computer-to-ou)
-- [Create New OU](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-orgnizational-unit)
-- [Create New Group](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-group)
-- [Create New User](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-user)
+- [Distinguished Name](#distinguished-name)
+- [Domain Mode](#domain-mode)
+- [Install Active Directory](#install-domain-controller-1)
+- [Uninstall Active Directory](#uninstall-domain-controller)
+- [Redirect New Computers to OU](#redirect-add-computer-to-ou)
+- [Create New OU](#adding-orgnizational-unit)
+- [Create New Group](#adding-group)
+- [Create New User](#adding-user)
 
 ## Distinguished Name
 
@@ -80,8 +80,8 @@ __*Variables*__
 
 `<$true|$false>` Can be either $true or $false.
 `<database path>` The desired file location of the AD Database.
-`<domain mode>` Domain functional level, see [Domain Mode](#Domain-Mode) table for usable values.
-`<forest mode>` As with `<domain mode>`, specifies functional level of the Forest. See [Domain Mode](#Domain-Mode) table for usable values.
+`<domain mode>` Domain functional level, see [Domain Mode](#domain-mode) table for usable values.
+`<forest mode>` As with `<domain mode>`, specifies functional level of the Forest. See [Domain Mode](#domain-mode) table for usable values.
 `<domain name>` Desired name for the domain being created.
 `<netbios name>` Shortened version of the `<domain name>`.
 `<log path>` Desired file location of the AD log path.
