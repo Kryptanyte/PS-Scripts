@@ -17,7 +17,7 @@ Each object of the domain must be declared individually within the DN. E.G. if t
 ```
 
 | DN Notation | Full Name |
-| - | - | -|
+| - | - |
 | CN | Common Name |
 | OU | Organizational Unit |
 | DC | Domain Component |
