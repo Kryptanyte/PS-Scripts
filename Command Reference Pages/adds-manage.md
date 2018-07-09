@@ -2,6 +2,8 @@
 
 ## Navigation
 
+- [Distinguished Name](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#distinguished-name)
+- [Domain Mode](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#domain-mode)
 - [Install Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#install-domain-controller-1)
 - [Uninstall Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#uninstall-domain-controller)
 - [Redirect New Computers to OU](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#redirect-add-computer-to-ou)
@@ -37,7 +39,18 @@ Each object of the domain must be declared individually within the DN. E.G. if t
 | C | Country Name |
 | UID | User ID |
 
+## Domain Mode
 
+Functional Levels of domain and forests.
+
+| Mode Name | Mode ID | Windows Version |
+| - | - | - |
+| Win2003 | 2 | Windows Server 2003 |
+| Win2008 | 3 | Windows Server 2008 |
+| Win2008R2 | 4 | Windows Server 2008 R2 |
+| Win2012 | 5 | Windows Server 2012 |
+| Win2012R2 | 6 | Windows Server 2012 R2 |
+| WinThreshold | 7 | Windows Server 2016 |
 
 ## Install Active Directory
 
