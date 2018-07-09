@@ -1,4 +1,13 @@
-# Active Directory Commands
+# Active Directory Management
+
+## Navigation
+
+- [Install Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#install-domain-controller-1)
+- [Uninstall Active Directory](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#uninstall-domain-controller)
+- [Redirect New Computers to OU](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#redirect-add-computer-to-ou)
+- [Create New OU](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-orgnizational-unit)
+- [Create New Group](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-group)
+- [Create New User](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#adding-user)
 
 ## Distinguished Name
 
@@ -30,7 +39,7 @@ Each object of the domain must be declared individually within the DN. E.G. if t
 
 
 
-## Install Domain Controller
+## Install Active Directory
 
 #### Powershell
 

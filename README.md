@@ -6,7 +6,8 @@
 ## [Powershell Code Snippets](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/powershell%20pseudocode.ps1)
 
 ## Active Directory
-- [Active Directory User and Group Mangement](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md)
+- [Active Directory Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#active-directory-management)
+- [Group and User Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#group-and-user-management)
 
 ## ASCII
 - [ASCII Tables](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/ascii.md)
