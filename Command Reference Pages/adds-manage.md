@@ -28,9 +28,11 @@ Each object of the domain must be declared individually within the DN. E.G. if t
 | C | Country Name |
 | UID | User ID |
 
-## Powershell
 
-#### Install Domain Controller
+
+## Install Domain Controller
+
+#### Powershell
 
 ```Powershell
 Install-WindowsFeature ad-domain-services `
@@ -64,7 +66,9 @@ __*Variables*__
 `<sysvol path>` Desired file location of the AD sysvol path.
 
 
-#### Uninstall Domain Controller
+## Uninstall Domain Controller
+
+#### Powershell
 
 ```Powershell
 Uninstall-ADDSDomainController `
@@ -73,9 +77,9 @@ Uninstall-ADDSDomainController `
 -Force
 ```
 
-## Command Line
+## Install Domain Controller
 
-#### Install Domain Controller
+#### Command Line
 
 ```bash
 [DCInstall]
@@ -106,15 +110,19 @@ __*Variables*__
 - `<sysvol path>` Desired file location of the AD sysvol path.
 - `<safemode pass>` Safemode password for database recovery.
 
-#### Uninstall Domain Controller
+## Uninstall Domain Controller
 
 ```bash
 # n/a at this time
 ```
 
-## Group and User Management
+---
 
-#### Redirect Add-Computer to OU
+# Group and User Management
+
+## Redirect Add-Computer to OU
+
+#### Command Line
 
 ```
 redircmp "<dn>"
@@ -130,9 +138,9 @@ __*E.G.*__
 redircmp "OU=Servers,DC=adatum,DC=com"
 ```
 
-#### Adding OU
+## Adding Orgnizational Unit
 
-##### Command Prompt
+#### Command Prompt
 
 ```
 dsadd ou "ou=<name>,<dn>"
@@ -149,7 +157,7 @@ __*E.G.*__
 dsadd ou "ou=shipping,dc=adatum,dc=com"
 ```
 
-##### Powershell
+#### Powershell
 
 ```Powershell
 New-ADOrganizationalUnit -Name <name> -Path <dn>
@@ -166,9 +174,9 @@ __*E.G.*__
 New-ADOrganizationalUnit -Name "Cleaners" -Path "DC=Adatum,DC=com"
 ```
 
-#### Adding Group
+## Adding Group
 
-##### Command Prompt
+#### Command Prompt
 
 ```
 dsadd group "cn=<name>,<dn>"
@@ -185,9 +193,9 @@ __*E.G.*__
 dsadd group cn=accounts,ou=accounts,dc=adatum,dc=com
 ```
 
-#### Adding User
+## Adding User
 
-##### Command Prompt
+#### Command Prompt
 
 ```
 dsadd "cn=<name>,<dn>" -disabled <yes|no> -pwd <password> -memberof <group dn> -samid <sam id> -upn <upn> -fn <first name> -ln <last name> -display <display name> -pwdneverexpires <yes|no>
