@@ -10,6 +10,7 @@
 - [Create New OU](#adding-orgnizational-unit)
 - [Create New Group](#adding-group)
 - [Create New User](#adding-user)
+- [Add User to Group](#add-user-to-group)
 
 ## Distinguished Name
 
@@ -78,14 +79,14 @@ Install-ADDSForest `
 
 __*Variables*__
 
-`<$true|$false>` Can be either $true or $false.
-`<database path>` The desired file location of the AD Database.
-`<domain mode>` Domain functional level, see [Domain Mode](#domain-mode) table for usable values.
-`<forest mode>` As with `<domain mode>`, specifies functional level of the Forest. See [Domain Mode](#domain-mode) table for usable values.
-`<domain name>` Desired name for the domain being created.
-`<netbios name>` Shortened version of the `<domain name>`.
-`<log path>` Desired file location of the AD log path.
-`<sysvol path>` Desired file location of the AD sysvol path.
+- `<$true|$false>` Can be either $true or $false.
+- `<database path>` The desired file location of the AD Database.
+- `<domain mode>` Domain functional level, see [Domain Mode](#domain-mode) table for usable values.
+- `<forest mode>` As with `<domain mode>`, specifies functional level of the Forest. See [Domain Mode](#domain-mode) table for usable values.
+- `<domain name>` Desired name for the domain being created.
+- `<netbios name>` Shortened version of the `<domain name>`.
+- `<log path>` Desired file location of the AD log path.
+- `<sysvol path>` Desired file location of the AD sysvol path.
 
 
 ## Uninstall Domain Controller
@@ -154,7 +155,7 @@ __*Variables*__
 
 - `<dn>` is the Distinguished Name of container to put computers joining the domain into.
 
-__*E.G.*__
+__*Example*__
 
 ```
 redircmp "OU=Servers,DC=adatum,DC=com"
@@ -173,7 +174,7 @@ __*Variables*__
 - `ou=<name>` is the name of the OU being created.
 - `<dn>` is the Distinguished Name of where the OU is to be placed.
 
-__*E.G.*__
+__*Example*__
 
 ```
 dsadd ou "ou=shipping,dc=adatum,dc=com"
@@ -182,15 +183,16 @@ dsadd ou "ou=shipping,dc=adatum,dc=com"
 #### Powershell
 
 ```Powershell
-New-ADOrganizationalUnit -Name <name> -Path <dn>
+New-ADOrganizationalUnit -Name <name> -Path <dn> -ProtectedFromAccidentalDeletion <$true|$false>
 ```
 
 __*Variables*__
 
 - `<name>` Name of the new OU.
 - `<dn>` Distinguished Name location to store new OU.
+- `<$true|$false>` Can be either $true or $false.
 
-__*E.G.*__
+__*Example*__
 
 ```Powershell
 New-ADOrganizationalUnit -Name "Cleaners" -Path "DC=Adatum,DC=com"
@@ -209,10 +211,29 @@ __*Variables*__
 - `cn=<name>` is the name of the group being created.
 - `<dn>` is the Distinguished Name of where the group is to be placed.
 
-__*E.G.*__
+__*Example*__
 
 ```
 dsadd group cn=accounts,ou=accounts,dc=adatum,dc=com
+```
+
+#### Powershell
+
+```Powershell
+New-ADGroup <name> -Path <dn> -GroupScope <group scope> -GroupCategory <group category>
+```
+
+__*Variables*__
+
+- `<name>` is the name of the group being created.
+- `<dn>` is the Distinguished Name of where the group is to be placed.
+- `<group scope>` is the scope of the group within the domain. Can be `DomainLocal`, `Global` or `Universal`.
+- `<group category>` is the category of the group. Can be `Security` or `Distribution`.
+
+__*Example*__
+
+```Powershell
+New-ADGroup accounts -Path "ou=accounts,dc=adatum,dc=com" -GroupScope Global -GroupCategory Security
 ```
 
 ## Adding User
@@ -236,8 +257,50 @@ __*Variables*__
 - `<last name>` Last name of the user.
 - `<display name>` Display name of the user.
 
-__*E.G.*__
+__*Example*__
 
 ```
 dsadd "cn=Michael Russells,ou=Managers,dc=adatum,dc=com" -disabled no -pwd Pa$$w0rd -memberof "cn=Managers,dc=adatum,dc=com" -samid Michael -upn Michael@adatum.com -fn Michael -ln Russells -display "Michael Russells" -pwdneverexpires yes
+```
+
+#### Powershell
+
+```Powershell
+New-ADUser -Name "<name>" -GivenName <first name> -Surname <last name> -SamAccountName <sam id> -UserPrincipalName <upn> -path "<dn>" -AccountPassword (ConvertTo-SecureString "<password>" -AsPlainText) -Enabled <$true|$false>
+```
+
+__*Variables*__
+
+- `<name>` is the name of the user being created.
+- `<first name>` First name of the user.
+- `<last name>` Last name of the user.
+- `<sam id>` Sam ID of the user. (logon using: `<domain>\<user>`)
+- `<upn>` User Principal Name of the user. (logon using: `<user>@<domain>`)
+- `<dn>` is the Distinguished Name of where the user is to be placed.
+- `<password>` Desired password for user. Recommended that user changes password.
+- `<$true|$false>` Can be either `$true` or `$false`
+
+__*Example*__
+
+```Powershell
+New-ADUser -Name "Michael Russells" -GivenName Michael -Surname Russells -SamAccountName Michael -UserPrincipalName Michael@adatum.com -Path "ou=Managers,dc=adatum,dc=com" -AccountPassword (ConvertTo-SecureString "Pa$$w0rd" -AsPlainText) -Enabled $true
+```
+
+## Add User to Group
+
+#### Powershell
+
+```Powershell
+Add-ADGroupMember <group> <user>
+```
+
+__*Variables*__
+
+- `<group>` Group name to add user to.
+- `<user>` Name of user. Can be a Distinguished Name, GUID, Security Identifier or SAM Account Name.
+
+__*Example*__
+
+```Powershell
+Add-ADGroupMember Managers Michael
 ```
