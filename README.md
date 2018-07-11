@@ -8,7 +8,6 @@
 ## Active Directory
 - [Active Directory Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#active-directory-management)
 - [Group and User Management](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#group-and-user-management)
-
 - [Distinguished Name](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/adds-manage.md#ddistinguished-name)
 
 ## ASCII
