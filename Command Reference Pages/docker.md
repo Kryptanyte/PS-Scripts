@@ -1,6 +1,6 @@
 # Docker Commands
 
-### Install Docker
+## Install Docker
 
 ```Powershell
 Install-Module -Name DockerMsftProvider -Repository PSGallery -Force

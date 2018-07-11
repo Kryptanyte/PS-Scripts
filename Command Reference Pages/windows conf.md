@@ -1,6 +1,6 @@
 # Windows Configuration
 
-### Desired State Configuration
+## Desired State Configuration
 
 This will allow you to view a defined configuration on different names and Propertities
 
@@ -38,7 +38,7 @@ An example of this could be making a sample configuration for Simple network Man
 Configuration SimpleConfiguration
 {
     WindowsFeature snmp
-        { 
+        {
            Name="SNMP-Service";
            Ensure="Present"
         }
@@ -47,13 +47,13 @@ Configuration SimpleConfiguration
 
 After setting this, it will show in the folder that it was set in
 
-After setting this script up, you can 5yen start a DSC configuration, with the Command Below, we will be using the example to issue the command
+After setting this script up, you can then start a DSC configuration, with the Command Below, we will be using the example to issue the command
 
 ```Powershell
 Start-DscConfiguration -computername localhost -path (Path Name) . -Verbose
 ```
 
-### Updating Server from Powershell
+## Updating Server from Powershell
 
 ```Powershell
 $sess = New-CimInstance -NameSpace root/Microsft/windows/Windowsupdate -Classname MSFT_WUOperationsSession
@@ -61,10 +61,10 @@ $sess = New-CimInstance -NameSpace root/Microsft/windows/Windowsupdate -Classnam
 Invoke-CimMethod -InputObject $sess -MethodName ApplyApplicableUpdates
 ```
 
-### Performing Windows Server Backup (Powershell)
+## Performing Windows Server Backup (Powershell)
 
 ```Powershell
-# Create a Backup Policy 
+# Create a Backup Policy
 $Policy = New-WBPolicy
 
 # Create File/Folder Specifications

@@ -49,6 +49,6 @@
 - [Updating with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/windows%20conf.md#updating-server-from-powershell)
 
 ## Networking
-- [Enabling Echo Request](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/networking.md#enable-ipv4-echo-requests)
-- [Setting DNS Server/s with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/networking.md#setting-server-address-server-machine-only)
+- [Enabling Echo Request](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/networking.md#enable-ipv4-echo-ping-requests)
+- [Setting DNS Server/s with Powershell](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/networking.md#setting-server-address)
 - [Connect to iSCSI Target](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/networking.md#connect-iscsi-target)

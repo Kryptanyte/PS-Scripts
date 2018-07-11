@@ -1,7 +1,5 @@
-### IPAM Commands
-
-
+## IPAM Commands
 
 ```PowerShell
-Invoke-IpamGpoProvisioning -Domain (Domain Name here) -Prefix (FQDN for server) 
+Invoke-IpamGpoProvisioning -Domain (Domain Name here) -Prefix (FQDN for server)
 ```

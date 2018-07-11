@@ -1,17 +1,17 @@
 # Virtual Machine Configuration
 
-### Creating A Virtual Machine
+## Creating A Virtual Machine
 
 ```Powershell
 New-VM -Name "(Name Of Virtual Machine)" -MemoryStartupBytes "(GB's of memory)" -SwitchName "(Your Virtual Network Adapter)" -Path "(Virtual Machine Configuration Storage Path)" -Generation 2
 ```
 
-### Making A New Virtual Hard Disk 
+## Making A New Virtual Hard Disk
 ```Powershell
 new-vhd -Path <Input File Path Here> -SizeBytes <Size of drive> -Dynamic <Can be Fixed, Differential>
 ```
 
-### Enable Nested Virtualization
+## Enable Nested Virtualization
 
 The first command will be for finding the virtual machine name, in this example, we will be looking for DataCenter, and we will assign the name as a variable
 
@@ -41,35 +41,33 @@ Now we will set the network adapter for the Child Virtual Machine, this will be 
 Set-VMNetworkAdapter -VMName $vm.name -name "(Input network adapter here)" -Macaddressspoofing on
 ```
 
-### NAT Enabled Switch
+## NAT Enabled Switch
 
 (Replace Your Router With This, Also Don't Pipe all this, just an example)
 
 *x is your assigned subnet*
 
 ```Powershell
-New-VMSwitch -SwitchName "NAT" -SwitchType Internal 
+New-VMSwitch -SwitchName "NAT" -SwitchType Internal
 
-New-NetIpAddress -IPAddress 10.60.x.1 -PrefixLength 24 -InterfaceIndex ((Get-NetAdapter *NAT*).IfIndex) 
+New-NetIpAddress -IPAddress 10.60.x.1 -PrefixLength 24 -InterfaceIndex ((Get-NetAdapter *NAT*).IfIndex)
 
 New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 ```
-### Setting Network Adapters On Multiple Machines
+## Setting Network Adapters On Multiple Machines
 
 (If you have multiple machines on one router, this is handy)
 
 ```Powershell
-Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat 
+Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat
 ```
-### Setting Up A Differencing Disk
+## Setting Up A Differencing Disk
 
 ```Powershell
 New-VHD -Path "(Where you want the Drive).vhdx" -ParentPath "(Where Base Disk is Located).vhdx" -Differencing
 ```
-### Setting Up A New VM with Differencing Disk
+## Setting Up A New VM with Differencing Disk
 
 ```Powershell
-New-VM -Name "(Name Of VM)" -Path "(Path Of VM Configuration)" -VHDPath "(Path Of Differencing Disk)" | ` Set-VMMemory -DynamicMemoryEnabled $True ` -MaximumBytes 2GB -Minimumbytes 512MB -StartupBytes 1GB 
+New-VM -Name "(Name Of VM)" -Path "(Path Of VM Configuration)" -VHDPath "(Path Of Differencing Disk)" | ` Set-VMMemory -DynamicMemoryEnabled $True ` -MaximumBytes 2GB -Minimumbytes 512MB -StartupBytes 1GB
 ```
-
-

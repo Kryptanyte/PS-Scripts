@@ -11,13 +11,6 @@
 SETSPN -s "Microsoft Virtual System Migration Services/XXX" XXX
 ```
 
-## Enable Echo (Ping) Requests
-
-```Powershell
-Get-NetFirewallRule *FPS-ICMP4* | Enable-NetFirewallRule
-```
-
-
 ## BC Web Cache stuffs
 
 #### How to Publish Web Content
@@ -29,13 +22,13 @@ Export-BCCachePackage -Destination "(Where you want to store it)"
 Import-BBCachePackage "(Whatever Location you stored the file)"
 ```
 
-### How to find what groups a user account is a member of?
+## How to find what groups a user account is a member of?
 
 ```PowerShell
 Get-ADPrincipleGroupMembership
 ```
 
-### What user accounts have access to a resource?
+## What user accounts have access to a resource?
 
 ```PowerShell
 Get-ADGroupmember -Identify -Recursive
