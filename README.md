@@ -1,6 +1,6 @@
 # Current Network Setup
 
-## [Unsorted Commands](https://github.com/Kryptanyte/PS-Scripts/blob/master/Command%20Reference%20Pages/unsorted.md)
+## [Unsorted Commands](/Command%20Reference%20Pages/unsorted.md)
 *Put any new commands into this unsorted commands file and they will be sorted and linked on the main readme*
 
 ## [Powershell Code Snippets](https://github.com/Kryptanyte/PS-Scripts/blob/master/Misc%20Scripts/powershell%20pseudocode.ps1)
