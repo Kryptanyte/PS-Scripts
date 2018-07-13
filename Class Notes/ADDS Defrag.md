@@ -40,6 +40,14 @@ compact to C:\Compacted
 integrity
 ```
 
+*Quit out of the ntdsutil*
+
+```
+quit
+
+quit
+```
+
 *__copy__ the defragmented database to the AD DS directory and remove the __.log__ files. {adds location} is the directory of the active directory database*
 
 ```
@@ -56,13 +64,9 @@ copy "C:\Compacted\ntds.dit" "C:\Windows\NTDS\ntds.dit"
 del "C:\Windows\NTDS\*.log"
 ```
 
-*Quit out of ntdsutil and restart the ADDS Service*
+*Restart the ADDS Service*
 
 ```
-quit
-
-quit
-
 net start ntds
 ```
 
