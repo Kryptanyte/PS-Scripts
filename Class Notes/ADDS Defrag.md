@@ -43,17 +43,17 @@ integrity
 *__copy__ the defragmented database to the AD DS directory and remove the __.log__ files. {adds location} is the directory of the active directory database*
 
 ```
-copy {location}\ntds.dit {adds location}\ntds.dit
+copy "{location}\ntds.dit" "{adds location}\ntds.dit"
 
-del {adds location}\*.log
+del "{adds location}\*.log"
 ```
 
 __*Example*__
 
 ```
-copy C:\Compacted\ntds.dit C:\Windows\NTDS\ntds.dit
+copy "C:\Compacted\ntds.dit" "C:\Windows\NTDS\ntds.dit"
 
-del C:\Windows\NTDS\*.log
+del "C:\Windows\NTDS\*.log"
 ```
 
 *Quit out of ntdsutil and restart the ADDS Service*
