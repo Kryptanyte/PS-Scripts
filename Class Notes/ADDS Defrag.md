@@ -71,7 +71,7 @@ net start ntds
 ```
 
 ### *Optional*
-*Delete the folder that was created by the Degragmentation Process*
+*Delete the folder that was created by the Defragmentation Process*
 
 ```
 del {location}
