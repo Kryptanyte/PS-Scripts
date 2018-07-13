@@ -56,6 +56,16 @@ copy C:\Compacted\ntds.dit C:\Windows\NTDS\ntds.dit
 del C:\Windows\NTDS\*.log
 ```
 
+*Quit out of ntdsutil and restart the ADDS Service*
+
+```
+quit
+
+quit
+
+net start ntds
+```
+
 ### *Optional*
 *Delete the folder that was created by the Degragmentation Process*
 
