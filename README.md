@@ -7,9 +7,15 @@
 
 ## Active Directory
 
-- [Active Directory Management](/Command%20Reference%20Pages/adds-manage.md#active-directory-management)
-- [Group and User Management](/Command%20Reference%20Pages/adds-manage.md#group-and-user-management)
-- [Distinguished Name](/Command%20Reference%20Pages/adds-manage.md#ddistinguished-name)
+- [Active Directory Management](/Command%20Reference%20Pages/adds.md#active-directory-management)
+- [Group and User Management](/Command%20Reference%20Pages/adds.md#group-and-user-management)
+- [Distinguished Name](/Command%20Reference%20Pages/adds.md#distinguished-name)
+
+#### Maintenance
+- [Database Defragmentation](/Command%20Reference%20Pages/adds.md#database-defragmentation)
+- [Create Snapshop](/Command%20Reference%20Pages/adds.md#create-snapshot)
+- [Mounting and Navigating Snapshot](/Command%20Reference%20Pages/adds.md#mounting-and-navigating-snapshot)
+
 
 ## ASCII
 

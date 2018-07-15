@@ -1,18 +1,34 @@
 # Active Directory Management
-
+---
 ## Navigation
+
+##### Terminology
 
 - [Distinguished Name](#distinguished-name)
 - [Domain Mode](#domain-mode)
+
+##### Service
+
 - [Install Active Directory](#install-domain-controller-1)
 - [Uninstall Active Directory](#uninstall-domain-controller)
+
+##### Group and User Management
+
 - [Redirect New Computers to OU](#redirect-add-computer-to-ou)
 - [Create New OU](#adding-orgnizational-unit)
 - [Create New Group](#adding-group)
 - [Create New User](#adding-user)
 - [Add User to Group](#add-user-to-group)
 
-## Distinguished Name
+##### Database Maintenance
+
+- [Database Defragmentation](#database-defragmentation)
+- [Create Snapshop](#create-snapshot)
+- [Mounting and Navigating Snapshot](#mounting-and-navigating-snapshot)
+---
+## Terminology
+
+### Distinguished Name
 
 The Distinguished Name, or DN, is the full path of an object within the domain.
 
@@ -40,7 +56,7 @@ Each object of the domain must be declared individually within the DN. E.G. if t
 | C | Country Name |
 | UID | User ID |
 
-## Domain Mode
+### Domain Mode
 
 Functional Levels of domain and forests.
 
@@ -53,9 +69,11 @@ Functional Levels of domain and forests.
 | Win2012R2 | 6 | Windows Server 2012 R2 |
 | WinThreshold | 7 | Windows Server 2016 |
 
-## Install Active Directory
+## Service
 
-#### Powershell
+### Install Active Directory
+
+##### Powershell
 
 ```Powershell
 Install-WindowsFeature ad-domain-services `
@@ -88,21 +106,9 @@ __*Variables*__
 - `<log path>` Desired file location of the AD log path.
 - `<sysvol path>` Desired file location of the AD sysvol path.
 
+### Install Domain Controller
 
-## Uninstall Domain Controller
-
-#### Powershell
-
-```Powershell
-Uninstall-ADDSDomainController `
--LastDomainController `
--RemoveApplicationPartitions `
--Force
-```
-
-## Install Domain Controller
-
-#### Command Line
+##### Command Line
 
 ```bash
 [DCInstall]
@@ -133,19 +139,24 @@ __*Variables*__
 - `<sysvol path>` Desired file location of the AD sysvol path.
 - `<safemode pass>` Safemode password for database recovery.
 
-## Uninstall Domain Controller
+### Uninstall Domain Controller
 
-```bash
-# n/a at this time
+##### Powershell
+
+```Powershell
+Uninstall-ADDSDomainController `
+-LastDomainController `
+-RemoveApplicationPartitions `
+-Force
 ```
 
 ---
 
-# Group and User Management
+## Group and User Management
 
-## Redirect Add-Computer to OU
+### Redirect Add-Computer to OU
 
-#### Command Line
+##### Command Line
 
 ```
 redircmp "<dn>"
@@ -161,9 +172,9 @@ __*Example*__
 redircmp "OU=Servers,DC=adatum,DC=com"
 ```
 
-## Adding Orgnizational Unit
+### Adding Orgnizational Unit
 
-#### Command Prompt
+##### Command Prompt
 
 ```
 dsadd ou "ou=<name>,<dn>"
@@ -180,7 +191,7 @@ __*Example*__
 dsadd ou "ou=shipping,dc=adatum,dc=com"
 ```
 
-#### Powershell
+##### Powershell
 
 ```Powershell
 New-ADOrganizationalUnit -Name <name> -Path <dn> -ProtectedFromAccidentalDeletion <$true|$false>
@@ -198,9 +209,9 @@ __*Example*__
 New-ADOrganizationalUnit -Name "Cleaners" -Path "DC=Adatum,DC=com"
 ```
 
-## Adding Group
+### Adding Group
 
-#### Command Prompt
+##### Command Prompt
 
 ```
 dsadd group "cn=<name>,<dn>"
@@ -217,7 +228,7 @@ __*Example*__
 dsadd group cn=accounts,ou=accounts,dc=adatum,dc=com
 ```
 
-#### Powershell
+##### Powershell
 
 ```Powershell
 New-ADGroup <name> -Path <dn> -GroupScope <group scope> -GroupCategory <group category>
@@ -236,9 +247,9 @@ __*Example*__
 New-ADGroup accounts -Path "ou=accounts,dc=adatum,dc=com" -GroupScope Global -GroupCategory Security
 ```
 
-## Adding User
+### Adding User
 
-#### Command Prompt
+##### Command Prompt
 
 ```
 dsadd "cn=<name>,<dn>" -disabled <yes|no> -pwd <password> -memberof <group dn> -samid <sam id> -upn <upn> -fn <first name> -ln <last name> -display <display name> -pwdneverexpires <yes|no>
@@ -263,7 +274,7 @@ __*Example*__
 dsadd "cn=Michael Russells,ou=Managers,dc=adatum,dc=com" -disabled no -pwd Pa$$w0rd -memberof "cn=Managers,dc=adatum,dc=com" -samid Michael -upn Michael@adatum.com -fn Michael -ln Russells -display "Michael Russells" -pwdneverexpires yes
 ```
 
-#### Powershell
+##### Powershell
 
 ```Powershell
 New-ADUser -Name "<name>" -GivenName <first name> -Surname <last name> -SamAccountName <sam id> -UserPrincipalName <upn> -path "<dn>" -AccountPassword (ConvertTo-SecureString "<password>" -AsPlainText) -Enabled <$true|$false>
@@ -286,9 +297,9 @@ __*Example*__
 New-ADUser -Name "Michael Russells" -GivenName Michael -Surname Russells -SamAccountName Michael -UserPrincipalName Michael@adatum.com -Path "ou=Managers,dc=adatum,dc=com" -AccountPassword (ConvertTo-SecureString "Pa$$w0rd" -AsPlainText) -Enabled $true
 ```
 
-## Add User to Group
+### Add User to Group
 
-#### Powershell
+##### Powershell
 
 ```Powershell
 Add-ADGroupMember <group> <user>
@@ -303,4 +314,169 @@ __*Example*__
 
 ```Powershell
 Add-ADGroupMember Managers Michael
+```
+---
+## Database Maintenance
+
+### Database Defragmentation
+
+**The following process is to be performed in an elevated (Administrative) command prompt**
+
+*Stop the AD DS Service before defragmentation*
+
+```
+net stop ntds
+```
+
+*Open __ntdsutil__ and activate the NTDS instance*
+
+```
+ntdsutil
+
+activate instance ntds
+```
+
+*Enter the __files__ shell*
+
+```
+files
+```
+
+*Run the defragmentation of the database. `{location}` is the output location for the defragmented database*
+
+```
+compact to {location}
+```
+
+__*Example*__
+
+```
+compact to C:\Compacted
+```
+
+*Verify the __integrity__ of the database*
+
+```
+integrity
+```
+
+*Quit out of the ntdsutil*
+
+```
+quit
+
+quit
+```
+
+*__copy__ the defragmented database to the AD DS directory and remove the __.log__ files. {adds location} is the directory of the active directory database*
+
+```
+copy "{location}\ntds.dit" "{adds location}\ntds.dit"
+
+del "{adds location}\*.log"
+```
+
+__*Example*__
+
+```
+copy "C:\Compacted\ntds.dit" "C:\Windows\NTDS\ntds.dit"
+
+del "C:\Windows\NTDS\*.log"
+```
+
+*Restart the ADDS Service*
+
+```
+net start ntds
+```
+
+##### *Optional*
+*Delete the folder that was created by the Defragmentation Process*
+
+```
+del {location}
+```
+
+__*Example*__
+
+```
+del C:\Compacted
+```
+
+### Create Snapshot
+
+*Requires Elevated Command Prompt*
+
+```
+ntdsutil
+
+activate instance ntds
+
+snapshot
+
+create
+```
+
+### Mounting and Navigating Snapshot
+
+*Requires Elevated Command Prompt*
+
+```Powershell
+ntdsutil
+
+snapshot
+
+list all
+
+# {guid} will be output from list all
+
+mount {guid}
+
+# {path} will be output from mount
+
+quit
+
+quit
+
+dsamain -dbpath {path}\windows\ntds\ntds.dit -ldapport 50000
+```
+
+*Open ADUC*
+
+*Right click on Active __Directory Users and Computers__ within the directory tree on the left and select __Change Domain Controller__*
+
+*Double click on __<Type a Directory Server name:[port] here>__ and type in the domain controller followed by :50000*
+
+```Powershell
+# ctrl+c to cancel the dsamain
+
+ntdsutil
+
+activate instance ntds
+
+quit
+
+snapshot
+
+unmount {guid}
+```
+
+### Delete Snapshot
+
+```
+ntdsutil
+
+activate instance ntds
+
+snapshot
+
+list all
+
+# {guid} will be output from list all
+
+delete {guid}
+
+quit
+
+quit
 ```
