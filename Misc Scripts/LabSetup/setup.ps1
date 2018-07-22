@@ -269,7 +269,13 @@ Function Edit-ServerConfig($Server)
     Clear-Host
 
     Write-Color -Color Green -Text "`n  Avonmore Systems Administration Course Script Configuration`n"
-    $i = 1
+
+    # Selection Index Reference Hashtable
+    $IndexRef = @{}
+
+    # Selection Index for writing and reference
+    $SelectIndex = 1
+
     $Server.PSObject.Properties | Foreach {
 
       if($_.Value -ne $null)
@@ -278,7 +284,7 @@ Function Edit-ServerConfig($Server)
 
         if(($type -like 'string') -or ($type -like 'int'))
         {
-          Write-Color -Color Red,Green,Magenta -Text "  $i) ","$($_.Name): ",$_.Value
+          Write-Color -Color Red,Green,Magenta -Text "  $SelectIndex) ","$($_.Name): ",$_.Value
         }
         else
         {
@@ -287,7 +293,7 @@ Function Edit-ServerConfig($Server)
           {
             if($_.Name -eq 'Memory')
             {
-              Write-Color -Color Red,Green -Text "  $i) ","$($_.Name)"
+              Write-Color -Color Red,Green -Text "  $SelectIndex) ","$($_.Name)"
 
               Foreach($NodeKey in $_.Value.Keys)
               {
@@ -305,7 +311,7 @@ Function Edit-ServerConfig($Server)
           }
           elseif($type -like "vdrive*")
           {
-            Write-Color -Color Red,Green -Text "  $i) ","$($_.Name)"
+            Write-Color -Color Red,Green -Text "  $SelectIndex) ","$($_.Name)"
 
             Foreach($Drive in $_.Value)
             {
@@ -332,13 +338,25 @@ Function Edit-ServerConfig($Server)
         Write-Color -Color Green,red -Text "  $($_.Name): ","Not Set"
       }
 
-      $i++
+      # Add Selection Index to Reference Hashtable
+      $IndexRef.Add($SelectIndex, $_.Name)
+
+      # Increment Selection Index
+      $SelectIndex++
     }
 
     Write-Color -Color Red,Cyan "`n  q)"," Exit"
 
     $Selection = Read-Host "`nSelect an Option"
 
+    if($Selection -eq 'q')
+    {
+      break
+    }
+    elseif($Selection -match "^\d+$")
+    {
+      $Num = [Int32][String]$Selection
+    }
   }
 }
 
@@ -390,8 +408,8 @@ Function Main()
   }
 }
 
-#Main
-
+Main
+<#
 Get-ScriptConfig
 Get-ServerConfigs
 
@@ -401,3 +419,4 @@ Foreach($Serv in $g_ServConfigs)
 {
   $Serv.Test
 }
+#>
