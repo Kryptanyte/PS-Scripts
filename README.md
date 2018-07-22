@@ -13,7 +13,7 @@
 
 #### Maintenance
 - [Database Defragmentation](/Command%20Reference%20Pages/adds.md#database-defragmentation)
-- [Create Snapshop](/Command%20Reference%20Pages/adds.md#create-snapshot)
+- [Create Snapshot](/Command%20Reference%20Pages/adds.md#create-snapshot)
 - [Mounting and Navigating Snapshot](/Command%20Reference%20Pages/adds.md#mounting-and-navigating-snapshot)
 
 
