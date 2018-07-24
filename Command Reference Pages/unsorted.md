@@ -33,3 +33,13 @@ Get-ADPrincipleGroupMembership
 ```PowerShell
 Get-ADGroupmember -Identify -Recursive
 ```
+
+## WMI Query
+
+```SQL
+# Select XP Pro from WMI Object
+SELECT * FROM Win32_OperatingSystem WHERE Caption = "Microsoft Windows XP Professional"
+
+#
+SELECT
+```
