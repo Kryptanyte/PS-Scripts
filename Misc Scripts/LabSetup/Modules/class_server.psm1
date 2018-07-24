@@ -26,13 +26,15 @@ Class Server
 
     $this.DSC = $ServerTable.DSC
 
-    <#
+
     Foreach($SwitchName in $ServerTable.Networking)
     {
       $SwitchTable = (gc "$PSScriptRoot\ServerConfigs\switches\$SwitchName.pson" | Out-String | iex)
       $this.Switches += [VSwitch]::new($SwitchTable)
-    }#>
-
+      Write-Host $this.Switches
+      Read-Host
+    }
+    Write-Host 'test'
     $this.Test = $ServerTable.Networking
   }
 

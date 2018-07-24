@@ -288,7 +288,6 @@ Function Edit-ServerConfig($Server)
         }
         else
         {
-
           if($type -like 'hashtable')
           {
             if($_.Name -eq 'Memory')
@@ -325,6 +324,23 @@ Function Edit-ServerConfig($Server)
               {
                 Write-Color -Color DarkGreen,Yellow,DarkCyan -Text "         Size: ","$(AsGB($Drive.Size))"," GB"
               }
+            }
+          }
+          elseif($type -like "vswitch*")
+          {
+            Write-Color -Color Red,Green -Text "  $SelectIndex) ","$($_.Name)"
+
+            Foreach($vSwitch in $_.Value)
+            {
+              Write-Color -Color Red,Green -Text "       Name:"$vSwitch.Name
+              Write-Color -Color DarkGreen,Yellow -Text "         Type: ",$vSwitch.Type
+            }
+          }
+          elseif($type -like '*object*')
+          {
+            Foreach($vSwitch in $_.Value)
+            {
+              #Write-Host "$vSwitch"
             }
           }
           else
@@ -376,6 +392,8 @@ Function Main()
 {
   Get-ScriptConfig
   Get-ServerConfigs
+
+  Read-Host
   #Get-InstalledServers
 
   While($True)
