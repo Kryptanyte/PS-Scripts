@@ -11,6 +11,7 @@
 
 - [Install Active Directory](#install-domain-controller-1)
 - [Uninstall Active Directory](#uninstall-domain-controller)
+- [Install Domain Controller](#install-domain-controller)
 
 ##### Group and User Management
 
@@ -149,6 +150,30 @@ Uninstall-ADDSDomainController `
 -RemoveApplicationPartitions `
 -Force
 ```
+
+### Install Domain Controller
+
+##### Powershell
+
+```Powershell
+Install-ADDSDomainController `
+-CreateDnsDelegation:<$true|$false> `
+-DatabasePath "<database path>" `
+-DomainName <domain name> `
+-InstallDns:<$true|$false> `
+-LogPath "<log path>" `
+-NoRebootOnCompletion:<$true|$false> `
+-SysvolPath "<sysvol path>" `
+-Force:<$true|$false>
+```
+
+__*Variables*__
+
+- `<$true|$false>` Can be either $true or $false.
+- `<database path>` The desired file location of the AD Database.
+- `<domain name>` Desired name for the domain being created.
+- `<log path>` Desired file location of the AD log path.
+- `<sysvol path>` Desired file location of the AD sysvol path.
 
 ---
 
