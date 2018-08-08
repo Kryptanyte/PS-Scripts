@@ -2,6 +2,22 @@
 
 *Put any new commands into this file and they will be sorted and linked on the main readme*
 
+## Rename Domain Controller
+
+```
+netdom computername <OldName> /add:<NewName>
+
+netdom computername <OldName> /makeprimary:<NewName>
+
+shutdown /r /t 0
+```
+
+Once system has restarted
+
+```
+netdom computername <NewName> /remove:<OldName>
+```
+
 ## Set Service Principal Names - Virtual System Migration
 
 *This will need to be done on both machines in order to have a relationship*
