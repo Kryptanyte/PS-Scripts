@@ -59,7 +59,7 @@ New-NetNat -Name Nat -InternalIPInterfaceAddressPrefix "10.60.x.0/24"
 (If you have multiple machines on one router, this is handy)
 
 ```Powershell
-Get-VM -Name "Project*" | Connect-NMNetworkAdapter -Switchname Nat
+Get-VM -Name "Project*" | Connect-VMNetworkAdapter -Switchname Nat
 ```
 ## Setting Up A Differencing Disk
 
