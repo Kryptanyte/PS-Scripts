@@ -1,28 +1,56 @@
 <?xml version='1.0' encoding='utf-8'?>
-<unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-  <settings pass="offlineServicing">
+<unattend xmlns='urn:schemas-microsoft-com:unattend' xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <settings pass='offlineServicing'>
    <component
-        xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        language="neutral"
-        name="Microsoft-Windows-PartitionManager"
-        processorArchitecture="amd64"
-        publicKeyToken="31bf3856ad364e35"
-        versionScope="nonSxS"
+        xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State'
+        xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        language='neutral'
+        name='Microsoft-Windows-PartitionManager'
+        processorArchitecture='amd64'
+        publicKeyToken='31bf3856ad364e35'
+        versionScope='nonSxS'
         >
       <SanPolicy>1</SanPolicy>
     </component>
  </settings>
- <settings pass="specialize">
-    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-        <ComputerName>Test</ComputerName>
-        <RegisteredOwner>PFE</RegisteredOwner>
-        <RegisteredOrganization>Contoso</RegisteredOrganization>
+ <settings pass='specialize'>
+    <component name='Microsoft-Windows-Shell-Setup' processorArchitecture='amd64' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS' xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+        <ComputerName>WS01</ComputerName>
+    </component>
+    <component name='Microsoft-Windows-TCPIP' processorArchitecture='amd64' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS' xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+      <Interfaces>
+        <Interface>
+          <Ipv4Settings>
+            <DhcpEnabled>false</DhcpEnabled>
+          </Ipv4Settings>
+          <Identifier>Ethernet</Identifier>
+          <UnicastIpAddresses>
+            <IpAddress wcm:action='add' wcm:keyValue='1'>/24</IpAddress>
+          </UnicastIpAddresses>
+          <Routes>
+            <Route wcm:action='add'>
+              <Identifier>0</Identifier>
+              <Prefix>0.0.0.0/0</Prefix>
+              <NextHopAddress>192.168.70.1</NextHopAddress>
+              <Metric>20</Metric>
+            </Route>
+          </Routes>
+        </Interface>
+      </Interfaces>
+    </component>
+    <component name='Microsoft-Windows-DNS-Client' processorArchitecture='amd64' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS' xmlns:wcm='http://schemas.microsoft.com/WMIConfig/2002/State' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+      <Interfaces>
+        <Interface>
+          <Identifier>Ethernet</Identifier>
+          <DNSServerSearchOrder>
+            <IpAddress wcm:action='add' wcm:keyValue='1'>192.168.70.10</IpAddress>
+          </DNSServerSearchOrder>
+        </Interface>
+      </Interfaces>
     </component>
  </settings>
- <settings pass="oobeSystem">
-    <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+ <settings pass='oobeSystem'>
+    <component name='Microsoft-Windows-Shell-Setup' processorArchitecture='amd64' publicKeyToken='31bf3856ad364e35' language='neutral' versionScope='nonSxS'>
       <UserAccounts>
         <AdministratorPassword>
            <Value>Pa$$w0rd</Value>

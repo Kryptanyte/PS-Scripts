@@ -260,7 +260,7 @@ Function CreateVHD
 
   $VHD
 
-  if($Differencing)
+  if($g_Differencing)
   {
     Switch($Type)
     {
@@ -300,7 +300,7 @@ Function CreateVM
     {
       New-VM -VMName $Computer.Name -MemoryStartupBytes 3GB -Generation 2 -SwitchName $g_LanAdapter -VHDPath $VHD.Path -Verbose
       
-      if($Differencing)
+      if($g_Differencing)
       {
         ApplyUnattend -VHD $VHD -ComputerName $Computer.Name -IpAddress $Computer.IPAddress
       }
