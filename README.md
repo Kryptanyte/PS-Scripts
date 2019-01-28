@@ -16,6 +16,8 @@
 - [Create Snapshot](/Command%20Reference%20Pages/adds.md#create-snapshot)
 - [Mounting and Navigating Snapshot](/Command%20Reference%20Pages/adds.md#mounting-and-navigating-snapshot)
 
+#### Scripts
+- [Removing Password Complexity](/Command%20Reference%20Pages/adds.md#removing-default-password-complexity-requirements)
 
 ## ASCII
 
