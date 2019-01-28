@@ -15,6 +15,7 @@
 
 ##### Group and User Management
 
+- [Remove AD-DS Password Complexity](#removing-default-password-complexity-requirements)
 - [Redirect New Computers to OU](#redirect-add-computer-to-ou)
 - [Create New OU](#adding-orgnizational-unit)
 - [Create New Group](#adding-group)
@@ -178,6 +179,27 @@ __*Variables*__
 ---
 
 ## Group and User Management
+
+### Removing Default Password Complexity Requirements
+
+#### Powershell
+
+```powershell
+# Script Sourced from: 
+# https://www.avoiderrors.com/remove-password-complexity-windows-server-2016/
+#
+# Export the system security setting database to .cfg file
+secedit /export /cfg c:\secpol.cfg
+
+# Get system security .cfg file, replace PasswordComplexity and save file
+(gc C:\secpol.cfg).replace(“PasswordComplexity = 1”, “PasswordComplexity = 0”) | Out-File C:\secpol.cfg
+
+# Load the .cfg file back into windows system security database
+secedit /configure /db c:\windows\security\local.sdb /cfg c:\secpol.cfg /areas SECURITYPOLICY
+
+# Remove the .cfg file 
+rm -force c:\secpol.cfg -confirm:$false
+```
 
 ### Redirect Add-Computer to OU
 
