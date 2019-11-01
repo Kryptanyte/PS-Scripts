@@ -15,6 +15,7 @@
 
 ##### Group and User Management
 
+- [Get all Computers in OU](#listing-all-computers-in-ou)
 - [Remove AD-DS Password Complexity](#removing-default-password-complexity-requirements)
 - [Redirect New Computers to OU](#redirect-add-computer-to-ou)
 - [Create New OU](#adding-orgnizational-unit)
@@ -179,6 +180,20 @@ __*Variables*__
 ---
 
 ## Group and User Management
+
+### Listing all Computers in OU
+
+#### Powershell
+
+```powershell
+Get-ADComputer -SearchBase "OU=Computers, DC=contosso,DC=com" -Filter * | Select Name | Format-Table
+```
+
+Generally speaking in a production environment there would be multiple OU paths, for example:
+
+```powershell
+Get-ADComputer -SearchBase "OU=Laptops,OU=Windows 10,OU=Computers, DC=contosso,DC=com" -Filter * | Select Name | Format-Table
+```
 
 ### Removing Default Password Complexity Requirements
 
